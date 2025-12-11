@@ -18,7 +18,7 @@ const sectorIcons: Record<string, React.ReactNode> = {
 
 export const MissionIdentity = ({ data }: MissionIdentityProps) => {
   return (
-    <section className="glass-card md:rounded-2xl p-0 md:p-8 space-y-5 md:space-y-8 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+    <section className="glass-card md:rounded-2xl p-0 md:p-8 space-y-5 md:space-y-8 animate-fade-in h-full" style={{ animationDelay: "0.1s" }}>
       {/* Header */}
       <div className="flex items-center gap-3">
         <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg md:rounded-xl bg-primary/10 flex items-center justify-center">
@@ -26,7 +26,7 @@ export const MissionIdentity = ({ data }: MissionIdentityProps) => {
         </div>
         <div>
           <h2 className="text-lg md:text-xl font-semibold text-foreground">Mission & Purpose</h2>
-          <Badge variant="secondary" className="mt-1 text-xs">{data.mainSectorName}</Badge>
+          <Badge variant="secondary" className="hidden md:inline-flex mt-1 text-xs">{data.mainSectorName}</Badge>
         </div>
       </div>
 
@@ -35,10 +35,10 @@ export const MissionIdentity = ({ data }: MissionIdentityProps) => {
         "{data.charitablePurpose}"
       </blockquote>
 
-      {/* Sectors */}
+      {/* Sectors - Mobile: just pills, no header */}
       <div className="space-y-2 md:space-y-3">
-        <h3 className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider">Sectors</h3>
-        <div className="flex flex-wrap gap-1.5 md:gap-2">
+        <h3 className="hidden md:block text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider">Sectors</h3>
+        <div className="flex flex-wrap justify-center md:justify-start gap-1.5 md:gap-2">
           {data.sectors.map((sector) => (
             <Badge key={sector} variant="outline" className="px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm">
               {sector}
@@ -49,8 +49,8 @@ export const MissionIdentity = ({ data }: MissionIdentityProps) => {
 
       {/* Beneficiaries */}
       <div className="space-y-2 md:space-y-3">
-        <h3 className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider">Who We Serve</h3>
-        <div className="flex flex-wrap gap-3 md:gap-4">
+        <h3 className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider text-center md:text-left">Who We Serve</h3>
+        <div className="flex flex-wrap justify-center md:justify-start gap-3 md:gap-4">
           {data.beneficiaries.map((beneficiary) => (
             <div key={beneficiary} className="flex flex-col items-center gap-1.5 md:gap-2">
               <div className="h-11 w-11 md:h-14 md:w-14 rounded-full bg-accent flex items-center justify-center text-accent-foreground">
@@ -64,8 +64,8 @@ export const MissionIdentity = ({ data }: MissionIdentityProps) => {
 
       {/* Activities */}
       <div className="space-y-2 md:space-y-3">
-        <h3 className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider">Activities</h3>
-        <div className="grid grid-cols-1 gap-1.5 md:gap-2">
+        <h3 className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider text-center md:text-left">Activities</h3>
+        <div className="flex flex-col items-center md:items-start gap-1.5 md:gap-2">
           {data.activities.map((activity) => (
             <div key={activity} className="flex items-center gap-2 text-sm md:text-base text-foreground">
               <Check className="h-4 w-4 text-success flex-shrink-0" />
