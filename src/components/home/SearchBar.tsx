@@ -121,14 +121,14 @@ export const SearchBar = () => {
 
       {/* Search Results Dropdown */}
       {showResults && (isFocused || searchResults.length > 0) && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-background border border-border rounded-2xl shadow-2xl overflow-hidden z-50 max-h-[500px] overflow-y-auto">
+        <div className="absolute top-full left-4 right-4 md:left-0 md:right-0 mt-2 bg-background border border-border rounded-2xl shadow-2xl overflow-hidden z-50 max-h-[400px] md:max-h-[500px] overflow-y-auto">
           {isLoading ? (
-            <div className="px-6 py-8 flex items-center justify-center text-muted-foreground">
-              <Loader2 className="w-5 h-5 animate-spin mr-2" />
+            <div className="px-4 md:px-6 py-6 md:py-8 flex items-center justify-center text-muted-foreground text-sm md:text-base">
+              <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin mr-2" />
               Searching...
             </div>
           ) : searchResults.length === 0 ? (
-            <div className="px-6 py-8 text-center text-muted-foreground">
+            <div className="px-4 md:px-6 py-6 md:py-8 text-center text-muted-foreground text-sm md:text-base">
               No charities found matching "{query}"
             </div>
           ) : (
@@ -137,28 +137,26 @@ export const SearchBar = () => {
                 return (
                 <div
                   key={charity.CharityRegistrationNumber + index}
-                  className="flex items-center gap-4 px-5 py-4 hover:bg-muted/50 cursor-pointer transition-colors"
+                  className="flex items-start md:items-center gap-3 md:gap-4 px-3 md:px-5 py-3 md:py-4 hover:bg-muted/50 cursor-pointer transition-colors"
                   onClick={() => navigate(`/charity/${charity.CharityRegistrationNumber}`)}
                 >
                   {/* Left Column: Icon */}
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-muted/50 flex items-center justify-center">
+                  <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-muted/50 flex items-center justify-center">
                     {getSectorIcon(charity.MainActivityId)}
                   </div>
 
                   {/* Middle Column: Details */}
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-foreground truncate">
+                    <h4 className="font-semibold text-foreground text-sm md:text-base leading-tight line-clamp-2 md:truncate">
                       {charity.Name.trim()}
                     </h4>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground mt-0.5">
+                    <div className="flex flex-wrap items-center gap-1 md:gap-2 text-xs md:text-sm text-muted-foreground mt-1 md:mt-0.5">
                       <span>📍 {charity.PostalAddressCity}</span>
-                      <span>•</span>
-                      <span>{getSectorLabel(charity.MainActivityId)}</span>
-                      <span>•</span>
-                      <span className="font-mono text-xs">{charity.CharityRegistrationNumber}</span>
+                      <span className="hidden md:inline">•</span>
+                      <span className="hidden md:inline">{getSectorLabel(charity.MainActivityId)}</span>
                     </div>
                     {charity.CharitablePurpose && (
-                      <p className="text-sm text-muted-foreground/70 mt-1 line-clamp-1">
+                      <p className="text-xs md:text-sm text-muted-foreground/70 mt-1 line-clamp-1 hidden md:block">
                         {charity.CharitablePurpose.substring(0, 100)}...
                       </p>
                     )}
@@ -167,14 +165,14 @@ export const SearchBar = () => {
                   {/* Right Column: Status Badge */}
                   <div className="flex-shrink-0">
                     {charity.RegistrationStatus === "Registered" ? (
-                      <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 text-xs font-medium">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        Registered
+                      <div className="flex items-center gap-1 md:gap-1.5 px-2 md:px-3 py-1 md:py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 text-[10px] md:text-xs font-medium">
+                        <CheckCircle2 className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                        <span className="hidden sm:inline">Registered</span>
                       </div>
                     ) : (
-                      <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-rose-500/10 text-rose-600 text-xs font-medium">
-                        <XCircle className="w-3.5 h-3.5" />
-                        Deregistered
+                      <div className="flex items-center gap-1 md:gap-1.5 px-2 md:px-3 py-1 md:py-1.5 rounded-full bg-rose-500/10 text-rose-600 text-[10px] md:text-xs font-medium">
+                        <XCircle className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                        <span className="hidden sm:inline">Deregistered</span>
                       </div>
                     )}
                   </div>
