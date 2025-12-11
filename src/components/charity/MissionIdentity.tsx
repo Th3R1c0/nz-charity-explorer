@@ -32,18 +32,22 @@ export const MissionIdentity = ({ data }: MissionIdentityProps) => {
 
       {/* Mission Statement */}
       <blockquote className="relative pl-4 md:pl-6 border-l-4 border-primary/30 text-base md:text-lg text-foreground/90 italic leading-relaxed">
-        "{data.charitablePurpose}"
+        {data.charitablePurpose ? `"${data.charitablePurpose}"` : <span className="text-muted-foreground not-italic">No data available</span>}
       </blockquote>
 
       {/* Sectors - Desktop only */}
       <div className="hidden md:block space-y-3">
         <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Sectors</h3>
         <div className="flex flex-wrap gap-2">
-          {data.sectors.map((sector) => (
-            <Badge key={sector} variant="outline" className="px-4 py-2 text-sm">
-              {sector}
-            </Badge>
-          ))}
+          {data.sectors && data.sectors.length > 0 ? (
+            data.sectors.map((sector) => (
+              <Badge key={sector} variant="outline" className="px-4 py-2 text-sm">
+                {sector}
+              </Badge>
+            ))
+          ) : (
+            <span className="text-sm text-muted-foreground">No data available</span>
+          )}
         </div>
       </div>
 
@@ -51,14 +55,18 @@ export const MissionIdentity = ({ data }: MissionIdentityProps) => {
       <div className="hidden md:block space-y-2 md:space-y-3">
         <h3 className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider text-center md:text-left">Who We Serve</h3>
         <div className="flex flex-wrap justify-center md:justify-start gap-3 md:gap-4">
-          {data.beneficiaries.map((beneficiary) => (
-            <div key={beneficiary} className="flex flex-col items-center gap-1.5 md:gap-2">
-              <div className="h-11 w-11 md:h-14 md:w-14 rounded-full bg-accent flex items-center justify-center text-accent-foreground">
-                {beneficiaryIcons[beneficiary] || <Users className="h-5 w-5 md:h-6 md:w-6" />}
+          {data.beneficiaries && data.beneficiaries.length > 0 ? (
+            data.beneficiaries.map((beneficiary) => (
+              <div key={beneficiary} className="flex flex-col items-center gap-1.5 md:gap-2">
+                <div className="h-11 w-11 md:h-14 md:w-14 rounded-full bg-accent flex items-center justify-center text-accent-foreground">
+                  {beneficiaryIcons[beneficiary] || <Users className="h-5 w-5 md:h-6 md:w-6" />}
+                </div>
+                <span className="text-xs md:text-sm font-medium text-foreground">{beneficiary}</span>
               </div>
-              <span className="text-xs md:text-sm font-medium text-foreground">{beneficiary}</span>
-            </div>
-          ))}
+            ))
+          ) : (
+            <span className="text-sm text-muted-foreground">No data available</span>
+          )}
         </div>
       </div>
 
@@ -66,12 +74,16 @@ export const MissionIdentity = ({ data }: MissionIdentityProps) => {
       <div className="hidden md:block space-y-2 md:space-y-3">
         <h3 className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider text-center md:text-left">Activities</h3>
         <div className="flex flex-col items-center md:items-start gap-1.5 md:gap-2">
-          {data.activities.map((activity) => (
-            <div key={activity} className="flex items-center gap-2 text-sm md:text-base text-foreground">
-              <Check className="h-4 w-4 text-success flex-shrink-0" />
-              <span>{activity}</span>
-            </div>
-          ))}
+          {data.activities && data.activities.length > 0 ? (
+            data.activities.map((activity) => (
+              <div key={activity} className="flex items-center gap-2 text-sm md:text-base text-foreground">
+                <Check className="h-4 w-4 text-success flex-shrink-0" />
+                <span>{activity}</span>
+              </div>
+            ))
+          ) : (
+            <span className="text-sm text-muted-foreground">No data available</span>
+          )}
         </div>
       </div>
     </section>

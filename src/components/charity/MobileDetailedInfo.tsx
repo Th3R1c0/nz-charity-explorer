@@ -21,8 +21,9 @@ const KoruIcon = ({
 export const MobileDetailedInfo = ({
   data
 }: MobileDetailedInfoProps) => {
-  const fullAddress = `${data.streetAddress}, ${data.suburb}, ${data.city}, ${data.postcode}`;
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
+  const addressParts = [data.streetAddress, data.suburb, data.city, data.postcode].filter(Boolean);
+  const fullAddress = addressParts.length > 0 ? addressParts.join(', ') : '';
+  const mapsUrl = fullAddress ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}` : '';
   return <details className="glass-card rounded-xl md:hidden">
       <summary className="flex items-center justify-between cursor-pointer list-none px-0 py-0">
         <div className="flex items-center gap-3">
@@ -37,9 +38,13 @@ export const MobileDetailedInfo = ({
         <div className="space-y-2">
           <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Sectors</h3>
           <div className="flex flex-wrap gap-1.5">
-            {data.sectors.map(sector => <Badge key={sector} variant="outline" className="px-3 py-1.5 text-xs">
-                {sector}
-              </Badge>)}
+            {data.sectors && data.sectors.length > 0 ? (
+              data.sectors.map(sector => <Badge key={sector} variant="outline" className="px-3 py-1.5 text-xs">
+                  {sector}
+                </Badge>)
+            ) : (
+              <span className="text-sm text-muted-foreground">No data available</span>
+            )}
           </div>
         </div>
 
@@ -47,12 +52,16 @@ export const MobileDetailedInfo = ({
         <div className="space-y-2">
           <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Who We Serve</h3>
           <div className="flex flex-wrap justify-start gap-3">
-            {data.beneficiaries.map(beneficiary => <div key={beneficiary} className="flex flex-col items-center gap-1.5">
-                <div className="h-11 w-11 rounded-full bg-accent flex items-center justify-center text-accent-foreground">
-                  {beneficiaryIcons[beneficiary] || <Users className="h-5 w-5" />}
-                </div>
-                <span className="text-xs font-medium text-foreground">{beneficiary}</span>
-              </div>)}
+            {data.beneficiaries && data.beneficiaries.length > 0 ? (
+              data.beneficiaries.map(beneficiary => <div key={beneficiary} className="flex flex-col items-center gap-1.5">
+                  <div className="h-11 w-11 rounded-full bg-accent flex items-center justify-center text-accent-foreground">
+                    {beneficiaryIcons[beneficiary] || <Users className="h-5 w-5" />}
+                  </div>
+                  <span className="text-xs font-medium text-foreground">{beneficiary}</span>
+                </div>)
+            ) : (
+              <span className="text-sm text-muted-foreground">No data available</span>
+            )}
           </div>
         </div>
 
@@ -60,10 +69,14 @@ export const MobileDetailedInfo = ({
         <div className="space-y-2">
           <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Activities</h3>
           <div className="flex flex-col gap-1.5">
-            {data.activities.map(activity => <div key={activity} className="flex items-center gap-2 text-sm text-foreground">
-                <Check className="h-4 w-4 text-success flex-shrink-0" />
-                <span>{activity}</span>
-              </div>)}
+            {data.activities && data.activities.length > 0 ? (
+              data.activities.map(activity => <div key={activity} className="flex items-center gap-2 text-sm text-foreground">
+                  <Check className="h-4 w-4 text-success flex-shrink-0" />
+                  <span>{activity}</span>
+                </div>)
+            ) : (
+              <span className="text-sm text-muted-foreground">No data available</span>
+            )}
           </div>
         </div>
 
@@ -94,7 +107,7 @@ export const MobileDetailedInfo = ({
         <div className="space-y-3">
           <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Location & Operations</h3>
           <p className="text-xs text-muted-foreground">
-            Operates in: <strong className="text-foreground">{data.areasOfOperation}</strong>
+            Operates in: <strong className="text-foreground">{data.areasOfOperation || 'No data'}</strong>
           </p>
           
           {/* Map Placeholder */}
@@ -131,7 +144,7 @@ export const MobileDetailedInfo = ({
               <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
               <div>
                 <p className="text-xs text-muted-foreground">Street Address</p>
-                <p className="text-sm text-foreground">{fullAddress}</p>
+                <p className="text-sm text-foreground">{fullAddress || 'No data available'}</p>
               </div>
             </div>
 
@@ -139,7 +152,7 @@ export const MobileDetailedInfo = ({
               <Mail className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
               <div>
                 <p className="text-xs text-muted-foreground">Postal Address</p>
-                <p className="text-sm text-foreground">{data.postalAddress}</p>
+                <p className="text-sm text-foreground">{data.postalAddress || 'No data available'}</p>
               </div>
             </div>
           </div>
