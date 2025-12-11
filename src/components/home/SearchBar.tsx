@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Heart, Users, Church, HelpCircle, CheckCircle2, XCircle, Loader2, X } from "lucide-react";
+import { Search, Heart, Users, Church, HelpCircle, CheckCircle2, XCircle, Loader2, X, ChevronsRight } from "lucide-react";
 
 interface SearchResult {
   Name: string;
@@ -45,6 +45,8 @@ export const SearchBar = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
 
   // Debounce the query - only update debouncedQuery after user stops typing
   useEffect(() => {
@@ -93,8 +95,19 @@ export const SearchBar = () => {
   // Show loading immediately when typing (before debounce completes)
   const isTyping = query.trim() !== debouncedQuery.trim() && query.trim().length > 0;
 
+  // Auto-scroll when results appear
+  useEffect(() => {
+    if (showResults && searchResults.length > 0 && !hasScrolled) {
+      searchContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setHasScrolled(true);
+    }
+    if (!showResults) {
+      setHasScrolled(false);
+    }
+  }, [showResults, searchResults.length, hasScrolled]);
+
   return (
-    <div className="w-full relative mb-8">
+    <div className="w-full relative mb-8" ref={searchContainerRef}>
       {/* Full-width Search Bar */}
       <div
         className={`
@@ -108,17 +121,17 @@ export const SearchBar = () => {
         <input
           type="text"
           placeholder="Search charities..."
-          className="flex-1 min-w-0 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground text-sm md:text-base"
+          className="flex-1 min-w-0 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground text-sm md:text-base text-left"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setTimeout(() => setIsFocused(false), 200)}
         />
         <button 
-          onClick={handleClear}
+          onClick={query ? handleClear : undefined}
           className="bg-primary text-primary-foreground px-4 md:px-6 py-2 rounded-full font-medium hover:bg-primary/90 transition-colors text-sm md:text-base whitespace-nowrap flex-shrink-0"
         >
-          <X className="w-4 h-4" />
+          {query ? <X className="w-4 h-4" /> : <ChevronsRight className="w-4 h-4" />}
         </button>
       </div>
 
@@ -135,22 +148,27 @@ export const SearchBar = () => {
               No charities found matching "{query}"
             </div>
           ) : (
-            <div className="divide-y divide-border">
+          <div className="divide-y divide-border">
               {searchResults.map((charity, index) => {
+                const isDeregistered = charity.RegistrationStatus !== "Registered";
                 return (
                 <div
                   key={charity.CharityRegistrationNumber + index}
-                  className="flex items-start md:items-center gap-3 md:gap-4 px-3 md:px-5 py-3 md:py-4 hover:bg-muted/50 cursor-pointer transition-colors"
-                  onClick={() => navigate(`/charity/${charity.CharityRegistrationNumber}`)}
+                  className={`flex items-start md:items-center gap-3 md:gap-4 px-3 md:px-5 py-3 md:py-4 transition-colors ${
+                    isDeregistered 
+                      ? "opacity-50 cursor-not-allowed bg-muted/30" 
+                      : "hover:bg-muted/50 cursor-pointer"
+                  }`}
+                  onClick={() => !isDeregistered && navigate(`/charity/${charity.CharityRegistrationNumber}`)}
                 >
                   {/* Left Column: Icon */}
-                  <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-muted/50 flex items-center justify-center">
+                  <div className={`flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-muted/50 flex items-center justify-center ${isDeregistered ? "grayscale" : ""}`}>
                     {getSectorIcon(charity.MainActivityId)}
                   </div>
 
                   {/* Middle Column: Details */}
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-foreground text-sm md:text-base leading-tight line-clamp-2 md:truncate">
+                    <h4 className={`font-semibold text-sm md:text-base leading-tight line-clamp-2 md:truncate ${isDeregistered ? "text-muted-foreground" : "text-foreground"}`}>
                       {charity.Name.trim()}
                     </h4>
                     <div className="flex flex-wrap items-center gap-1 md:gap-2 text-xs md:text-sm text-muted-foreground mt-1 md:mt-0.5">

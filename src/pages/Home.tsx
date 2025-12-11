@@ -18,7 +18,24 @@ const Home = () => {
             </h1>
             <p className="text-base md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-2">
               Go beyond the brochure. Access detailed financials, government funding analysis, 
-              and impact reports for over 28,000 registered NZ charities.
+              and impact reports for over{" "}
+              <span className="relative inline-block">
+                <span className="font-semibold text-foreground">28,000</span>
+                <svg 
+                  className="absolute -bottom-1 left-0 w-full h-2 text-primary" 
+                  viewBox="0 0 100 8" 
+                  preserveAspectRatio="none"
+                >
+                  <path 
+                    d="M0 5 Q 10 2, 20 5 T 40 5 T 60 5 T 80 5 T 100 5" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    fill="none"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>{" "}
+              registered NZ charities.
             </p>
           </div>
 
