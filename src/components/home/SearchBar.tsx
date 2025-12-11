@@ -1,7 +1,6 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Heart, BookOpen, Users, Church, Leaf, Building, HelpCircle, CheckCircle2, XCircle } from "lucide-react";
-import { TestSearchQueryData } from "@/data/charityData";
+import { Search, Heart, Users, Church, HelpCircle, CheckCircle2, XCircle, Loader2 } from "lucide-react";
 
 interface SearchResult {
   Name: string;
@@ -43,16 +42,33 @@ export const SearchBar = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const searchResults = useMemo(() => {
-    if (!query.trim()) return [];
-    const lowerQuery = query.toLowerCase();
-    return TestSearchQueryData.d.filter(
-      (charity) =>
-        charity.Name.toLowerCase().includes(lowerQuery) ||
-        charity.CharityRegistrationNumber.toLowerCase().includes(lowerQuery) ||
-        charity.CharitablePurpose.toLowerCase().includes(lowerQuery)
-    ) as SearchResult[];
+  useEffect(() => {
+    const fetchCharities = async () => {
+      if (!query.trim()) {
+        setSearchResults([]);
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const encodedQuery = encodeURIComponent(query.toLowerCase());
+        const url = `http://www.odata.charities.govt.nz/vOrganisations?$filter=substringof('${encodedQuery}', tolower(Name)) eq true&$select=Name,PostalAddressCity,PostalAddressSuburb,MainActivityId,RegistrationStatus,CharityRegistrationNumber,CharitablePurpose&$format=json`;
+        const response = await fetch(url);
+        const data = await response.json();
+        setSearchResults(data.d || []);
+      } catch (error) {
+        console.error("Error fetching charities:", error);
+        setSearchResults([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const debounceTimer = setTimeout(fetchCharities, 300);
+    return () => clearTimeout(debounceTimer);
   }, [query]);
 
   const showResults = isFocused && query.trim().length > 0;
@@ -86,7 +102,12 @@ export const SearchBar = () => {
       {/* Search Results Dropdown */}
       {showResults && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-background border border-border rounded-2xl shadow-2xl overflow-hidden z-50 max-h-[400px] overflow-y-auto">
-          {searchResults.length === 0 ? (
+          {isLoading ? (
+            <div className="px-6 py-8 flex items-center justify-center text-muted-foreground">
+              <Loader2 className="w-5 h-5 animate-spin mr-2" />
+              Searching...
+            </div>
+          ) : searchResults.length === 0 ? (
             <div className="px-6 py-8 text-center text-muted-foreground">
               No charities found matching "{query}"
             </div>
