@@ -139,9 +139,11 @@ export const SearchBar = () => {
                       <span>•</span>
                       <span className="font-mono text-xs">{charity.CharityRegistrationNumber}</span>
                     </div>
-                    <p className="text-sm text-muted-foreground/70 mt-1 line-clamp-1">
-                      {charity.CharitablePurpose.substring(0, 100)}...
-                    </p>
+                    {charity.CharitablePurpose && (
+                      <p className="text-sm text-muted-foreground/70 mt-1 line-clamp-1">
+                        {charity.CharitablePurpose.substring(0, 100)}...
+                      </p>
+                    )}
                   </div>
 
                   {/* Right Column: Status Badge */}
