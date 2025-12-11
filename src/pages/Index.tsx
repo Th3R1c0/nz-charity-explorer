@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Header } from "@/components/home/Header";
 import { HeroHeader } from "@/components/charity/HeroHeader";
 import { MissionIdentity } from "@/components/charity/MissionIdentity";
 import { CulturalClassification } from "@/components/charity/CulturalClassification";
@@ -16,7 +17,7 @@ import { StressTestSlider } from "@/components/charity/StressTestSlider";
 import { MobileDetailedInfo } from "@/components/charity/MobileDetailedInfo";
 import { transformCharityData } from "@/data/transformCharityData";
 import { CharityData } from "@/data/charityData";
-import { Shield, BarChart3, Loader2 } from "lucide-react";
+import { BarChart3, Loader2 } from "lucide-react";
 
 const Index = () => {
   const { charityId } = useParams<{ charityId: string }>();
@@ -101,23 +102,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border/50 bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container max-w-7xl mx-auto px-4 py-3 md:py-4">
-          <div className="flex items-center gap-2 md:gap-3">
-            <div 
-              className="h-8 w-8 md:h-10 md:w-10 rounded-lg md:rounded-xl bg-primary flex items-center justify-center cursor-pointer"
-              onClick={() => navigate("/home")}
-            >
-              <Shield className="h-4 w-4 md:h-5 md:w-5 text-primary-foreground" />
-            </div>
-            <div>
-              <h1 className="font-semibold text-foreground text-sm md:text-base">Charity Transparency</h1>
-              <p className="text-[10px] md:text-xs text-muted-foreground">Financial Insights Dashboard</p>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="container max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-8 space-y-0 md:space-y-8">
         {/* Section 1: Hero Header */}
