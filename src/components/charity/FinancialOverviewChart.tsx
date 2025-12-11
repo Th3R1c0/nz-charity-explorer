@@ -44,7 +44,7 @@ export const FinancialOverviewChart = ({
   }));
   return <section style={{
     animationDelay: "0.5s"
-  }} className="glass-card rounded-2xl p-8 animate-fade-in px-0">
+  }} className="glass-card rounded-2xl p-8 animate-fade-in px-[32px]">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-foreground">Financial Overview</h2>
         <p className="text-muted-foreground">5-Year Income, Expenses & Surplus Trend</p>
