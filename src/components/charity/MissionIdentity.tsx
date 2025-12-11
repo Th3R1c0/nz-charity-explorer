@@ -35,16 +35,7 @@ export const MissionIdentity = ({ data }: MissionIdentityProps) => {
         "{data.charitablePurpose}"
       </blockquote>
 
-      {/* Sectors - Mobile only pills below mission */}
-      <div className="flex md:hidden flex-wrap justify-center gap-1.5">
-        {data.sectors.map((sector) => (
-          <Badge key={sector} variant="outline" className="px-3 py-1.5 text-xs">
-            {sector}
-          </Badge>
-        ))}
-      </div>
-
-      {/* Sectors - Desktop with header */}
+      {/* Sectors - Desktop only */}
       <div className="hidden md:block space-y-3">
         <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Sectors</h3>
         <div className="flex flex-wrap gap-2">
@@ -56,8 +47,8 @@ export const MissionIdentity = ({ data }: MissionIdentityProps) => {
         </div>
       </div>
 
-      {/* Beneficiaries */}
-      <div className="space-y-2 md:space-y-3">
+      {/* Beneficiaries - Desktop only */}
+      <div className="hidden md:block space-y-2 md:space-y-3">
         <h3 className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider text-center md:text-left">Who We Serve</h3>
         <div className="flex flex-wrap justify-center md:justify-start gap-3 md:gap-4">
           {data.beneficiaries.map((beneficiary) => (
@@ -71,8 +62,8 @@ export const MissionIdentity = ({ data }: MissionIdentityProps) => {
         </div>
       </div>
 
-      {/* Activities */}
-      <div className="space-y-2 md:space-y-3">
+      {/* Activities - Desktop only */}
+      <div className="hidden md:block space-y-2 md:space-y-3">
         <h3 className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider text-center md:text-left">Activities</h3>
         <div className="flex flex-col items-center md:items-start gap-1.5 md:gap-2">
           {data.activities.map((activity) => (

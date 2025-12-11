@@ -68,7 +68,7 @@ export const StatCards = ({ data }: StatCardsProps) => {
   const surplusTrend = ((currentYear.surplus - previousYear.surplus) / previousYear.surplus * 100).toFixed(1);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
       <StatCard
         title="Total Income"
         value={formatCurrency(data.currentFinancials.totalIncome)}
