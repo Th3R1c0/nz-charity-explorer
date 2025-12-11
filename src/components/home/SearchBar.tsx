@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Heart, Users, Church, HelpCircle, CheckCircle2, XCircle, Loader2 } from "lucide-react";
+import { Search, Heart, Users, Church, HelpCircle, CheckCircle2, XCircle, Loader2, X } from "lucide-react";
 
 interface SearchResult {
   Name: string;
@@ -41,20 +41,30 @@ const getSectorLabel = (activityId: number | null) => {
 export const SearchBar = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Debounce the query - only update debouncedQuery after user stops typing
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  // Fetch when debouncedQuery changes
   useEffect(() => {
     const fetchCharities = async () => {
-      if (!query.trim()) {
+      if (!debouncedQuery.trim()) {
         setSearchResults([]);
         return;
       }
 
       setIsLoading(true);
       try {
-        const encodedQuery = encodeURIComponent(query.toLowerCase());
+        const encodedQuery = encodeURIComponent(debouncedQuery.toLowerCase());
         const apiUrl = `http://www.odata.charities.govt.nz/vOrganisations?$filter=substringof('${encodedQuery}', tolower(Name)) eq true&$select=Name,PostalAddressCity,PostalAddressSuburb,MainActivityId,RegistrationStatus,CharityRegistrationNumber,CharitablePurpose&$format=json`;
         const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
         const response = await fetch(proxyUrl);
@@ -68,14 +78,20 @@ export const SearchBar = () => {
       }
     };
 
-    const debounceTimer = setTimeout(fetchCharities, 300);
-    return () => clearTimeout(debounceTimer);
-  }, [query]);
+    fetchCharities();
+  }, [debouncedQuery]);
 
-  const showResults = isFocused && query.trim().length > 0;
+  const handleClear = () => {
+    setQuery("");
+    setDebouncedQuery("");
+    setSearchResults([]);
+  };
+
+  // Show results when there's a query (not just when focused)
+  const showResults = query.trim().length > 0;
 
   return (
-    <div className="w-full max-w-3xl mx-auto relative px-4 md:px-0">
+    <div className="w-full max-w-3xl mx-auto relative px-4 md:px-0 mb-8">
       {/* Airbnb-style Search Bar */}
       <div
         className={`
@@ -95,14 +111,17 @@ export const SearchBar = () => {
           onFocus={() => setIsFocused(true)}
           onBlur={() => setTimeout(() => setIsFocused(false), 200)}
         />
-        <button className="bg-primary text-primary-foreground px-4 md:px-6 py-2 rounded-full font-medium hover:bg-primary/90 transition-colors text-sm md:text-base whitespace-nowrap flex-shrink-0">
-          Search
+        <button 
+          onClick={handleClear}
+          className="bg-primary text-primary-foreground px-4 md:px-6 py-2 rounded-full font-medium hover:bg-primary/90 transition-colors text-sm md:text-base whitespace-nowrap flex-shrink-0"
+        >
+          <X className="w-4 h-4" />
         </button>
       </div>
 
       {/* Search Results Dropdown */}
-      {showResults && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-background border border-border rounded-2xl shadow-2xl overflow-hidden z-50 max-h-[400px] overflow-y-auto">
+      {showResults && (isFocused || searchResults.length > 0) && (
+        <div className="absolute top-full left-0 right-0 mt-2 bg-background border border-border rounded-2xl shadow-2xl overflow-hidden z-50 max-h-[500px] overflow-y-auto">
           {isLoading ? (
             <div className="px-6 py-8 flex items-center justify-center text-muted-foreground">
               <Loader2 className="w-5 h-5 animate-spin mr-2" />
