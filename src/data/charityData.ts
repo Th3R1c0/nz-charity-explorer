@@ -847,4 +847,76 @@ export const TestOverviewCharityData = {
 //   },
 // };
 
-// export type CharityData = typeof charityData;
+// CharityData type definition
+export interface CharityData {
+  // Section 1: Hero Header
+  name: string;
+  registrationStatus: string;
+  charityRegistrationNumber: string;
+  dateRegistered: number;
+  websiteURL: string;
+  charityEmailAddress: string;
+
+  // Section 2: Mission & Identity
+  charitablePurpose: string;
+  mainSectorName: string;
+  sectors: string[];
+  beneficiaries: string[];
+  activities: string[];
+
+  // Section 3: Cultural Classification
+  kaupapaMaoriCharity: boolean;
+  maoriTrustBoard: boolean;
+  kaupapaMaoriCharityAffiliationWithIwiAndOrHapu: boolean;
+  pasifikaCharity: boolean;
+
+  // Section 4: Location & Operations
+  streetAddress: string;
+  suburb: string;
+  city: string;
+  postcode: string;
+  areasOfOperation: string;
+  postalAddress: string;
+
+  // Section 5: Legal & Structure
+  nzbnNumber: string;
+  legalStructure: string;
+  groupType: number;
+  sourcesOfFunds: string[];
+
+  // Financial Data (5 years)
+  financialHistory: {
+    year: number;
+    income: number;
+    expenses: number;
+    surplus: number;
+  }[];
+
+  // Current Year Financial Details
+  currentFinancials: {
+    totalIncome: number;
+    totalExpenses: number;
+    netSurplus: number;
+    totalAssets: number;
+    totalLiabilities: number;
+    totalEquity: number;
+    cashOnHand: number;
+    employees: number;
+  };
+
+  // Revenue Breakdown
+  revenueBreakdown: {
+    governmentGrants: number;
+    donations: number;
+    tradingServices: number;
+    investments: number;
+  };
+
+  // Expense Breakdown
+  expenseBreakdown: {
+    programCosts: number;
+    adminCosts: number;
+    fundraisingCosts: number;
+    otherCosts: number;
+  };
+}
