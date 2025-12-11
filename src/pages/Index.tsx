@@ -11,7 +11,7 @@ import { MissionEfficiencyRing } from "@/components/charity/MissionEfficiencyRin
 import { CashRunwayBar } from "@/components/charity/CashRunwayBar";
 import { BalanceSheetBar } from "@/components/charity/BalanceSheetBar";
 import { StressTestSlider } from "@/components/charity/StressTestSlider";
-import { charityData } from "@/data/charityData";
+import { transformedCharityData as charityData } from "@/data/transformCharityData";
 import { Shield, BarChart3 } from "lucide-react";
 
 const Index = () => {
