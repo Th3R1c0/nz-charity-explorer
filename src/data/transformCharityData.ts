@@ -60,23 +60,40 @@ export const transformCharityData = (
   const financialHistory = getFinancialHistory(financialRecords);
 
   // Calculate revenue breakdown from latest record
-  const govGrants = latestFinancial.GovtGrantsContracts || 0;
-  const donations = latestFinancial.DonationsKoha || 0;
-  const tradingServices = latestFinancial.ServiceTradingIncome || 0;
-  const investments = (latestFinancial.NewZealandDividends || 0) + (latestFinancial.AllOtherIncome || 0);
-  const otherGrants = latestFinancial.AllOtherGrantsAndSponsorship || 0;
+  const govGrants = latestFinancial.GovtGrantsContracts ?? 0;
+  const donations = latestFinancial.DonationsKoha ?? 0;
+  const tradingServices = latestFinancial.ServiceTradingIncome ?? 0;
+  const investments = (latestFinancial.NewZealandDividends ?? 0) + (latestFinancial.AllOtherIncome ?? 0);
+  const otherGrants = latestFinancial.AllOtherGrantsAndSponsorship ?? 0;
+  
+  // Calculate total from known sources
+  const knownRevenue = govGrants + donations + tradingServices + investments + otherGrants;
+  const totalIncome = latestFinancial.TotalGrossIncome ?? 0;
+  const otherIncome = Math.max(0, totalIncome - knownRevenue);
 
   // Calculate expense breakdown
-  const salaries = latestFinancial.SalariesAndWages || 0;
-  const programCosts = (latestFinancial.CostOfServiceProvision || 0) + salaries * 0.7; // Rough estimate
-  const adminCosts = salaries * 0.3;
-  const depreciation = latestFinancial.Depreciation || 0;
-  const otherExpenses = latestFinancial.AllOtherExpenditure || 0;
+  const salaries = latestFinancial.SalariesAndWages ?? 0;
+  const costOfService = latestFinancial.CostOfServiceProvision ?? 0;
+  const depreciation = latestFinancial.Depreciation ?? 0;
+  const otherExpenses = latestFinancial.AllOtherExpenditure ?? 0;
+  const costOfTrading = latestFinancial.CostOfTradingOperations ?? 0;
   
-  // Adjust to match total expenses
-  const totalExpenses = latestFinancial.TotalExpenditure || 0;
-  const calculatedExpenses = programCosts + adminCosts + depreciation + otherExpenses;
-  const scaleFactor = calculatedExpenses > 0 ? totalExpenses / calculatedExpenses : 1;
+  // Calculate totals for expense breakdown
+  const totalExpenses = latestFinancial.TotalExpenditure ?? 0;
+  const knownExpenses = salaries + costOfService + depreciation + otherExpenses + costOfTrading;
+  
+  // If we have detailed breakdown, use it; otherwise estimate from total
+  const hasDetailedExpenses = knownExpenses > 0;
+  const programCosts = hasDetailedExpenses 
+    ? costOfService + costOfTrading + (salaries * 0.7)
+    : totalExpenses * 0.7;
+  const adminCosts = hasDetailedExpenses 
+    ? (salaries * 0.3) + (otherExpenses * 0.3)
+    : totalExpenses * 0.2;
+  const fundraisingCosts = depreciation;
+  const remainingCosts = hasDetailedExpenses
+    ? otherExpenses * 0.7
+    : totalExpenses * 0.1;
 
   return {
     // Section 1: Hero Header
@@ -135,15 +152,15 @@ export const transformCharityData = (
       governmentGrants: govGrants + otherGrants,
       donations: donations,
       tradingServices: tradingServices,
-      investments: investments,
+      investments: investments + otherIncome,
     },
 
     // Expense Breakdown (estimated)
     expenseBreakdown: {
-      programCosts: Math.round(programCosts * scaleFactor),
-      adminCosts: Math.round(adminCosts * scaleFactor),
-      fundraisingCosts: Math.round(depreciation * scaleFactor),
-      otherCosts: Math.round(otherExpenses * scaleFactor),
+      programCosts: Math.round(programCosts),
+      adminCosts: Math.round(adminCosts),
+      fundraisingCosts: Math.round(fundraisingCosts),
+      otherCosts: Math.round(remainingCosts),
     },
   };
 };
