@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Search, Heart, BookOpen, Users, Church, Leaf, Building, HelpCircle, CheckCircle2, XCircle } from "lucide-react";
 import { TestSearchQueryData } from "@/data/charityData";
 
@@ -39,6 +40,7 @@ const getSectorLabel = (activityId: number | null) => {
 };
 
 export const SearchBar = () => {
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
@@ -90,10 +92,13 @@ export const SearchBar = () => {
             </div>
           ) : (
             <div className="divide-y divide-border">
-              {searchResults.map((charity, index) => (
+              {searchResults.map((charity, index) => {
+                const charitySlug = encodeURIComponent(charity.Name.trim());
+                return (
                 <div
                   key={charity.CharityRegistrationNumber + index}
                   className="flex items-center gap-4 px-5 py-4 hover:bg-muted/50 cursor-pointer transition-colors"
+                  onClick={() => navigate(`/charity/${charitySlug}`)}
                 >
                   {/* Left Column: Icon */}
                   <div className="flex-shrink-0 w-12 h-12 rounded-full bg-muted/50 flex items-center justify-center">
@@ -132,7 +137,8 @@ export const SearchBar = () => {
                     )}
                   </div>
                 </div>
-              ))}
+              );
+              })}
             </div>
           )}
         </div>
