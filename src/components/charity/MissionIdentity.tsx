@@ -18,7 +18,7 @@ const sectorIcons: Record<string, React.ReactNode> = {
 
 export const MissionIdentity = ({ data }: MissionIdentityProps) => {
   return (
-    <section className="glass-card md:rounded-2xl p-0 md:p-8 space-y-5 md:space-y-8 animate-fade-in h-full" style={{ animationDelay: "0.1s" }}>
+    <section className="glass-card md:rounded-2xl p-0 md:p-8 space-y-5 md:space-y-8 animate-fade-in h-full flex flex-col" style={{ animationDelay: "0.1s" }}>
       {/* Header */}
       <div className="flex items-center gap-3">
         <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg md:rounded-xl bg-primary/10 flex items-center justify-center">
@@ -35,12 +35,21 @@ export const MissionIdentity = ({ data }: MissionIdentityProps) => {
         "{data.charitablePurpose}"
       </blockquote>
 
-      {/* Sectors - Mobile: just pills, no header */}
-      <div className="space-y-2 md:space-y-3">
-        <h3 className="hidden md:block text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider">Sectors</h3>
-        <div className="flex flex-wrap justify-center md:justify-start gap-1.5 md:gap-2">
+      {/* Sectors - Mobile only pills below mission */}
+      <div className="flex md:hidden flex-wrap justify-center gap-1.5">
+        {data.sectors.map((sector) => (
+          <Badge key={sector} variant="outline" className="px-3 py-1.5 text-xs">
+            {sector}
+          </Badge>
+        ))}
+      </div>
+
+      {/* Sectors - Desktop with header */}
+      <div className="hidden md:block space-y-3">
+        <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Sectors</h3>
+        <div className="flex flex-wrap gap-2">
           {data.sectors.map((sector) => (
-            <Badge key={sector} variant="outline" className="px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm">
+            <Badge key={sector} variant="outline" className="px-4 py-2 text-sm">
               {sector}
             </Badge>
           ))}

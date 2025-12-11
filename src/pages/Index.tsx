@@ -53,20 +53,26 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Section 5: Legal Structure (Collapsible) */}
-        <div className="mobile-section">
-          <LegalStructure data={charityData} />
-        </div>
-
-        {/* Divider with Label */}
-        <div className="relative py-6 md:py-8">
-          <div className="absolute inset-0 flex items-center">
+        {/* Divider with Label - Mobile matches Location header style */}
+        <div className="md:relative md:py-8">
+          {/* Desktop: Centered divider line */}
+          <div className="hidden md:block absolute inset-0 flex items-center">
             <div className="w-full border-t border-border" />
           </div>
-          <div className="relative flex justify-center">
-            <div className="bg-background px-4 md:px-6 py-2 flex items-center gap-2">
-              <BarChart3 className="h-4 w-4 md:h-5 md:w-5 text-primary" />
-              <span className="text-base md:text-lg font-semibold text-foreground">Financial Statements</span>
+          {/* Desktop: Centered label */}
+          <div className="hidden md:flex relative justify-center">
+            <div className="bg-background px-6 py-2 flex items-center gap-2">
+              <BarChart3 className="h-5 w-5 text-primary" />
+              <span className="text-lg font-semibold text-foreground">Financial Statements</span>
+            </div>
+          </div>
+          {/* Mobile: Location header style */}
+          <div className="flex md:hidden items-center justify-center gap-3 py-4">
+            <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+              <BarChart3 className="h-5 w-5 text-primary" />
+            </div>
+            <div className="text-center">
+              <h2 className="text-lg font-semibold text-foreground">Financial Statements</h2>
             </div>
           </div>
         </div>
@@ -83,23 +89,23 @@ const Index = () => {
 
         {/* Financial Section: Key Metrics Grid */}
         <div className="space-y-0 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6">
-          <div className="mobile-section md:border-b-0">
+          <div className="mobile-section md:border-b-0 md:h-full">
             <RevenueDonutChart data={charityData} />
           </div>
-          <div className="mobile-section md:border-b-0">
+          <div className="mobile-section md:border-b-0 md:h-full">
             <GovernmentDependencyGauge data={charityData} />
           </div>
-          <div className="mobile-section md:border-b-0 md:col-span-2 lg:col-span-1">
+          <div className="mobile-section md:border-b-0 md:col-span-2 lg:col-span-1 md:h-full">
             <MissionEfficiencyRing data={charityData} />
           </div>
         </div>
 
         {/* Financial Section: Risk & Balance */}
         <div className="space-y-0 md:space-y-0 md:grid lg:grid-cols-2 md:gap-6">
-          <div className="mobile-section md:border-b-0">
+          <div className="mobile-section md:border-b-0 md:h-full">
             <CashRunwayBar data={charityData} />
           </div>
-          <div className="mobile-section md:border-b-0">
+          <div className="mobile-section md:border-b-0 md:h-full">
             <BalanceSheetBar data={charityData} />
           </div>
         </div>
@@ -107,6 +113,11 @@ const Index = () => {
         {/* Financial Section: Interactive Stress Test */}
         <div className="pt-4 md:pt-0">
           <StressTestSlider data={charityData} />
+        </div>
+
+        {/* Section: Legal Structure (Collapsible) - At Bottom */}
+        <div className="mobile-section">
+          <LegalStructure data={charityData} />
         </div>
 
         {/* Footer */}

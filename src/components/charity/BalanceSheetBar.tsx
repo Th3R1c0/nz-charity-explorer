@@ -31,10 +31,10 @@ export const BalanceSheetBar = ({ data }: BalanceSheetBarProps) => {
   const health = getHealthStatus(debtRatio);
 
   return (
-    <div className="glass-card rounded-2xl p-6 animate-fade-in" style={{ animationDelay: "1.4s" }}>
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold text-foreground">Balance Sheet</h3>
-        <p className="text-sm text-muted-foreground">Assets vs Liabilities</p>
+    <div className="glass-card md:rounded-2xl p-4 md:p-6 animate-fade-in h-full" style={{ animationDelay: "1.4s" }}>
+      <div className="mb-4 md:mb-6">
+        <h3 className="text-base md:text-lg font-semibold text-foreground">Balance Sheet</h3>
+        <p className="text-xs md:text-sm text-muted-foreground">Assets vs Liabilities</p>
       </div>
 
       <div className="space-y-6">

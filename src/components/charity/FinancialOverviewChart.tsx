@@ -44,13 +44,13 @@ export const FinancialOverviewChart = ({
   }));
   return <section style={{
     animationDelay: "0.5s"
-  }} className="glass-card rounded-2xl p-8 animate-fade-in px-[32px]">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-foreground">Financial Overview</h2>
-        <p className="text-muted-foreground">5-Year Income, Expenses & Surplus Trend</p>
+  }} className="glass-card md:rounded-2xl p-4 md:p-8 animate-fade-in px-0 md:px-8">
+      <div className="mb-4 md:mb-6 px-4 md:px-0">
+        <h2 className="text-xl md:text-2xl font-bold text-foreground">Financial Overview</h2>
+        <p className="text-sm md:text-base text-muted-foreground">5-Year Income, Expenses & Surplus Trend</p>
       </div>
 
-      <div className="h-80">
+      <div className="h-64 md:h-80">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={chartData} margin={{
           top: 20,
