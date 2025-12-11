@@ -27,25 +27,25 @@ export const CulturalClassification = ({ data }: CulturalClassificationProps) =>
 
   return (
     <section 
-      className="relative glass-card md:rounded-2xl p-0 md:p-8 overflow-hidden animate-fade-in md:koru-pattern"
+      className="relative glass-card md:rounded-2xl p-0 md:p-8 overflow-hidden animate-fade-in md:koru-pattern h-full"
       style={{ animationDelay: "0.2s" }}
     >
       <div className="relative space-y-4 md:space-y-6">
         {/* Header */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-center md:justify-start gap-3">
           <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg md:rounded-xl bg-primary/10 flex items-center justify-center">
             <KoruIcon className="h-5 w-5 md:h-7 md:w-7 text-primary" />
           </div>
-          <div>
+          <div className="text-center md:text-left">
             <h2 className="text-lg md:text-xl font-semibold text-foreground">Cultural Identity</h2>
             <p className="text-xs md:text-sm text-muted-foreground">Te Ao Māori Classification</p>
           </div>
         </div>
 
         {/* Badges */}
-        <div className="flex flex-col md:flex-row md:flex-wrap gap-3 md:gap-4">
+        <div className="flex flex-col items-center md:items-start md:flex-row md:flex-wrap gap-3 md:gap-4">
           {data.kaupapaMaoriCharity && (
-            <div className="flex items-center gap-3 bg-primary/5 border border-primary/20 rounded-lg md:rounded-xl px-4 py-3 md:px-5 md:py-4">
+            <div className="flex items-center gap-3 bg-primary/5 border border-primary/20 rounded-lg md:rounded-xl px-4 py-3 md:px-5 md:py-4 w-full md:w-auto">
               <KoruIcon className="h-6 w-6 md:h-8 md:w-8 text-primary" />
               <div>
                 <p className="font-semibold text-sm md:text-base text-foreground">Kaupapa Māori</p>
@@ -55,7 +55,7 @@ export const CulturalClassification = ({ data }: CulturalClassificationProps) =>
           )}
 
           {data.maoriTrustBoard && (
-            <div className="flex items-center gap-3 bg-accent border border-primary/20 rounded-lg md:rounded-xl px-4 py-3 md:px-5 md:py-4">
+            <div className="flex items-center gap-3 bg-accent border border-primary/20 rounded-lg md:rounded-xl px-4 py-3 md:px-5 md:py-4 w-full md:w-auto">
               <div className="h-6 w-6 md:h-8 md:w-8 rounded-full bg-primary/10 flex items-center justify-center">
                 <span className="text-primary font-bold text-xs md:text-sm">TB</span>
               </div>
@@ -67,7 +67,7 @@ export const CulturalClassification = ({ data }: CulturalClassificationProps) =>
           )}
 
           {data.kaupapaMaoriCharityAffiliationWithIwiAndOrHapu && (
-            <div className="flex items-center gap-3 bg-secondary border border-border rounded-lg md:rounded-xl px-4 py-3 md:px-5 md:py-4">
+            <div className="flex items-center gap-3 bg-secondary border border-border rounded-lg md:rounded-xl px-4 py-3 md:px-5 md:py-4 w-full md:w-auto">
               <div className="h-6 w-6 md:h-8 md:w-8 rounded-full bg-primary/10 flex items-center justify-center">
                 <span className="text-primary font-bold text-xs md:text-sm">Iwi</span>
               </div>

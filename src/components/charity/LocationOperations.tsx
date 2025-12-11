@@ -11,17 +11,17 @@ export const LocationOperations = ({ data }: LocationOperationsProps) => {
 
   return (
     <section 
-      className="glass-card rounded-2xl p-8 space-y-6 animate-fade-in"
+      className="glass-card md:rounded-2xl p-0 md:p-8 space-y-4 md:space-y-6 animate-fade-in h-full"
       style={{ animationDelay: "0.3s" }}
     >
       {/* Header */}
-      <div className="flex items-center gap-3">
-        <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
-          <MapPin className="h-6 w-6 text-primary" />
+      <div className="flex items-center justify-center md:justify-start gap-3">
+        <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg md:rounded-xl bg-primary/10 flex items-center justify-center">
+          <MapPin className="h-5 w-5 md:h-6 md:w-6 text-primary" />
         </div>
-        <div>
-          <h2 className="text-xl font-semibold text-foreground">Location & Operations</h2>
-          <p className="text-sm text-muted-foreground">Operates in: <strong className="text-foreground">{data.areasOfOperation}</strong></p>
+        <div className="text-center md:text-left">
+          <h2 className="text-lg md:text-xl font-semibold text-foreground">Location & Operations</h2>
+          <p className="text-xs md:text-sm text-muted-foreground">Operates in: <strong className="text-foreground">{data.areasOfOperation}</strong></p>
         </div>
       </div>
 
@@ -30,7 +30,7 @@ export const LocationOperations = ({ data }: LocationOperationsProps) => {
         href={mapsUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="block relative h-48 rounded-xl bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 border border-border overflow-hidden group hover:border-primary/30 transition-colors"
+        className="block relative h-36 md:h-48 rounded-xl bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 border border-border overflow-hidden group hover:border-primary/30 transition-colors"
       >
         {/* Map Grid Pattern */}
         <div className="absolute inset-0 opacity-30">
@@ -48,34 +48,34 @@ export const LocationOperations = ({ data }: LocationOperationsProps) => {
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="relative">
             <div className="absolute inset-0 bg-primary/20 rounded-full animate-ping" />
-            <div className="relative h-12 w-12 rounded-full bg-primary flex items-center justify-center shadow-lg">
-              <MapPin className="h-6 w-6 text-primary-foreground" />
+            <div className="relative h-10 w-10 md:h-12 md:w-12 rounded-full bg-primary flex items-center justify-center shadow-lg">
+              <MapPin className="h-5 w-5 md:h-6 md:w-6 text-primary-foreground" />
             </div>
           </div>
         </div>
 
         {/* Hover Label */}
-        <div className="absolute bottom-4 left-4 right-4 bg-card/90 backdrop-blur-sm rounded-lg px-4 py-3 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
-          <span className="text-sm font-medium text-foreground">View on Google Maps</span>
+        <div className="absolute bottom-3 md:bottom-4 left-3 md:left-4 right-3 md:right-4 bg-card/90 backdrop-blur-sm rounded-lg px-3 md:px-4 py-2 md:py-3 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
+          <span className="text-xs md:text-sm font-medium text-foreground">View on Google Maps</span>
           <Navigation className="h-4 w-4 text-primary" />
         </div>
       </a>
 
       {/* Address Details */}
-      <div className="space-y-3">
-        <div className="flex items-start gap-3">
-          <MapPin className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+      <div className="space-y-2 md:space-y-3">
+        <div className="flex items-start gap-2 md:gap-3">
+          <MapPin className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
           <div>
-            <p className="text-sm text-muted-foreground">Street Address</p>
-            <p className="text-foreground">{fullAddress}</p>
+            <p className="text-xs md:text-sm text-muted-foreground">Street Address</p>
+            <p className="text-sm md:text-base text-foreground">{fullAddress}</p>
           </div>
         </div>
 
-        <div className="flex items-start gap-3">
-          <Mail className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+        <div className="flex items-start gap-2 md:gap-3">
+          <Mail className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
           <div>
-            <p className="text-sm text-muted-foreground">Postal Address</p>
-            <p className="text-foreground">{data.postalAddress}</p>
+            <p className="text-xs md:text-sm text-muted-foreground">Postal Address</p>
+            <p className="text-sm md:text-base text-foreground">{data.postalAddress}</p>
           </div>
         </div>
       </div>
