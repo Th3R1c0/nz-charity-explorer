@@ -122,8 +122,20 @@
 }
 
 @layer utilities {
+  /* Mobile-first: no card styling, Desktop: glass card */
   .glass-card {
-    @apply bg-card/80 backdrop-blur-xl border border-border/50 shadow-lg;
+    @apply bg-transparent;
+  }
+
+  @screen md {
+    .glass-card {
+      @apply bg-card/80 backdrop-blur-xl border border-border/50 shadow-lg rounded-2xl;
+    }
+  }
+
+  /* For components that should always have card styling */
+  .glass-card-always {
+    @apply bg-card/80 backdrop-blur-xl border border-border/50 shadow-lg rounded-2xl;
   }
 
   .stat-glow {
@@ -132,5 +144,16 @@
 
   .koru-pattern {
     background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30 Q40 20 30 10 Q20 20 30 30' fill='none' stroke='%2310b981' stroke-width='1' opacity='0.1'/%3E%3C/svg%3E");
+  }
+
+  /* Mobile section dividers */
+  .mobile-section {
+    @apply py-6 border-b border-border/30;
+  }
+
+  @screen md {
+    .mobile-section {
+      @apply py-0 border-b-0;
+    }
   }
 }
