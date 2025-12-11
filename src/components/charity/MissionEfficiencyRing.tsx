@@ -35,10 +35,10 @@ export const MissionEfficiencyRing = ({ data }: MissionEfficiencyRingProps) => {
   const strokeDashoffset = circumference - (animatedPercentage / 100) * circumference;
 
   return (
-    <div className="glass-card rounded-2xl p-6 animate-fade-in" style={{ animationDelay: "1.2s" }}>
-      <div className="mb-4">
-        <h3 className="text-lg font-semibold text-foreground">Mission Efficiency</h3>
-        <p className="text-sm text-muted-foreground">Spending on the cause</p>
+    <div className="glass-card md:rounded-2xl p-4 md:p-6 animate-fade-in h-full" style={{ animationDelay: "1.2s" }}>
+      <div className="mb-3 md:mb-4">
+        <h3 className="text-base md:text-lg font-semibold text-foreground">Mission Efficiency</h3>
+        <p className="text-xs md:text-sm text-muted-foreground">Spending on the cause</p>
       </div>
 
       <div className="relative h-48 flex items-center justify-center">

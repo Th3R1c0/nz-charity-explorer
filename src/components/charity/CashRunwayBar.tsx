@@ -23,10 +23,10 @@ export const CashRunwayBar = ({ data }: CashRunwayBarProps) => {
   const colors = getColor(cashMonths);
 
   return (
-    <div className="glass-card rounded-2xl p-6 animate-fade-in" style={{ animationDelay: "1.3s" }}>
-      <div className="mb-4">
-        <h3 className="text-lg font-semibold text-foreground">Cash Runway</h3>
-        <p className="text-sm text-muted-foreground">Survival time without income</p>
+    <div className="glass-card md:rounded-2xl p-4 md:p-6 animate-fade-in h-full" style={{ animationDelay: "1.3s" }}>
+      <div className="mb-3 md:mb-4">
+        <h3 className="text-base md:text-lg font-semibold text-foreground">Cash Runway</h3>
+        <p className="text-xs md:text-sm text-muted-foreground">Survival time without income</p>
       </div>
 
       {/* Battery Bar */}
