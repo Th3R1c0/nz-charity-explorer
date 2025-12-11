@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { HeroHeader } from "@/components/charity/HeroHeader";
 import { MissionIdentity } from "@/components/charity/MissionIdentity";
 import { CulturalClassification } from "@/components/charity/CulturalClassification";
@@ -11,17 +13,101 @@ import { MissionEfficiencyRing } from "@/components/charity/MissionEfficiencyRin
 import { CashRunwayBar } from "@/components/charity/CashRunwayBar";
 import { BalanceSheetBar } from "@/components/charity/BalanceSheetBar";
 import { StressTestSlider } from "@/components/charity/StressTestSlider";
-import { transformedCharityData as charityData } from "@/data/transformCharityData";
-import { Shield, BarChart3 } from "lucide-react";
+import { transformCharityData } from "@/data/transformCharityData";
+import { CharityData } from "@/data/charityData";
+import { Shield, BarChart3, Loader2 } from "lucide-react";
 
 const Index = () => {
+  const { charityId } = useParams<{ charityId: string }>();
+  const navigate = useNavigate();
+  const [charityData, setCharityData] = useState<CharityData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCharityData = async () => {
+      if (!charityId) {
+        navigate("/home");
+        return;
+      }
+
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const reg = decodeURIComponent(charityId);
+        const profileUrl = `http://www.odata.charities.govt.nz/vOrganisations?$filter=CharityRegistrationNumber eq '${reg}'&$format=json`;
+        const financialsUrl = `http://www.odata.charities.govt.nz/GrpOrgAllReturns?$filter=CharityRegistrationNumber eq '${reg}'&$select=Name,CharityRegistrationNumber,YearEnded,EndOfYearMonth,EndOfYearDayofMonth,TotalGrossIncome,TotalExpenditure,TotalAssets,TotalLiabilities,TotalEquity,NetSurplusDeficitForTheYear,GovtGrantsContracts,AllOtherGrantsAndSponsorship,DonationsKoha,ServiceTradingIncome,NewZealandDividends,AllOtherIncome,SalariesAndWages,CostOfServiceProvision,CostOfTradingOperations,Depreciation,AllOtherExpenditure,CashAndBankBalances,Investments,Buildings,AllOtherFixedAssets,PercentageSpentOverseas,NumberOfFulltimeEmployees,NumberOfParttimeEmployees,AvgAllPaidHoursPerWeek,AvgAllVolunteerHoursPerWeek,AvgNoVolunteersPerWeek&$orderby=YearEnded desc&$format=json`;
+
+        const proxyBase = "https://corsproxy.io/?";
+
+        const [profileRes, financialsRes] = await Promise.all([
+          fetch(proxyBase + encodeURIComponent(profileUrl)),
+          fetch(proxyBase + encodeURIComponent(financialsUrl)),
+        ]);
+
+        const profileData = await profileRes.json();
+        const financialsData = await financialsRes.json();
+
+        if (!profileData.d || profileData.d.length === 0) {
+          setError("Charity not found");
+          return;
+        }
+
+        const transformed = transformCharityData(
+          { d: profileData.d },
+          { d: financialsData.d || [] }
+        );
+
+        setCharityData(transformed);
+      } catch (err) {
+        console.error("Error fetching charity data:", err);
+        setError("Failed to load charity data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCharityData();
+  }, [charityId, navigate]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto" />
+          <p className="mt-4 text-muted-foreground">Loading charity data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !charityData) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-destructive text-lg">{error || "Something went wrong"}</p>
+          <button
+            onClick={() => navigate("/home")}
+            className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-lg"
+          >
+            Back to Search
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border/50 bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container max-w-7xl mx-auto px-4 py-3 md:py-4">
           <div className="flex items-center gap-2 md:gap-3">
-            <div className="h-8 w-8 md:h-10 md:w-10 rounded-lg md:rounded-xl bg-primary flex items-center justify-center">
+            <div 
+              className="h-8 w-8 md:h-10 md:w-10 rounded-lg md:rounded-xl bg-primary flex items-center justify-center cursor-pointer"
+              onClick={() => navigate("/home")}
+            >
               <Shield className="h-4 w-4 md:h-5 md:w-5 text-primary-foreground" />
             </div>
             <div>
@@ -53,20 +139,17 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Divider with Label - Mobile matches Location header style */}
+        {/* Divider with Label */}
         <div className="md:relative md:py-8">
-          {/* Desktop: Centered divider line */}
           <div className="hidden md:block absolute inset-0 flex items-center">
             <div className="w-full border-t border-border" />
           </div>
-          {/* Desktop: Centered label */}
           <div className="hidden md:flex relative justify-center">
             <div className="bg-background px-6 py-2 flex items-center gap-2">
               <BarChart3 className="h-5 w-5 text-primary" />
               <span className="text-lg font-semibold text-foreground">Financial Statements</span>
             </div>
           </div>
-          {/* Mobile: Location header style */}
           <div className="flex md:hidden items-center justify-center gap-3 py-4">
             <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
               <BarChart3 className="h-5 w-5 text-primary" />
@@ -77,17 +160,15 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Financial Section: Stat Cards */}
+        {/* Financial Sections */}
         <div className="mobile-section md:border-b-0">
           <StatCards data={charityData} />
         </div>
 
-        {/* Financial Section: Overview Chart */}
         <div className="mobile-section md:border-b-0">
           <FinancialOverviewChart data={charityData} />
         </div>
 
-        {/* Financial Section: Key Metrics Grid */}
         <div className="space-y-0 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6">
           <div className="mobile-section md:border-b-0 md:h-full">
             <RevenueDonutChart data={charityData} />
@@ -100,7 +181,6 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Financial Section: Risk & Balance */}
         <div className="space-y-0 md:space-y-0 md:grid lg:grid-cols-2 md:gap-6">
           <div className="mobile-section md:border-b-0 md:h-full">
             <CashRunwayBar data={charityData} />
@@ -110,17 +190,14 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Financial Section: Interactive Stress Test */}
         <div className="pt-4 md:pt-0">
           <StressTestSlider data={charityData} />
         </div>
 
-        {/* Section: Legal Structure (Collapsible) - At Bottom */}
         <div className="mobile-section">
           <LegalStructure data={charityData} />
         </div>
 
-        {/* Footer */}
         <footer className="pt-8 md:pt-12 pb-6 md:pb-8 text-center text-xs md:text-sm text-muted-foreground">
           <p>Data sourced from the New Zealand Charities Register</p>
           <p className="mt-1">Last updated: December 2024</p>
