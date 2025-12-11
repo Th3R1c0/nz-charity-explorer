@@ -7,23 +7,25 @@ const Home = () => {
       <Header />
       
       {/* Hero Section */}
-      <main className="pt-24 pb-16">
-        <div className="max-w-5xl mx-auto px-6 text-center">
+      <main className="pt-24 pb-16 flex items-center justify-center min-h-[calc(100vh-6rem)]">
+        <div className="w-full max-w-5xl mx-auto px-4 md:px-6 text-center flex flex-col items-center">
           {/* Hero Text */}
-          <div className="mb-12">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
+          <div className="mb-8 md:mb-12">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-4 md:mb-6">
               See the full picture behind{" "}
               <span className="text-primary">every charity</span>{" "}
               in Aotearoa.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-2">
               Go beyond the brochure. Access detailed financials, government funding analysis, 
               and impact reports for over 28,000 registered NZ charities.
             </p>
           </div>
 
           {/* Search Bar */}
-          <SearchBar />
+          <div className="w-full">
+            <SearchBar />
+          </div>
 
           {/* Subtle hint */}
           <p className="mt-6 text-sm text-muted-foreground/60">

@@ -56,11 +56,11 @@ export const SearchBar = () => {
   const showResults = isFocused && query.trim().length > 0;
 
   return (
-    <div className="w-full max-w-3xl mx-auto relative">
+    <div className="w-full max-w-3xl mx-auto relative px-4 md:px-0">
       {/* Airbnb-style Search Bar */}
       <div
         className={`
-          relative flex items-center gap-4 px-6 py-4
+          relative flex items-center gap-2 md:gap-4 px-4 md:px-6 py-3 md:py-4
           bg-background border-2 rounded-full
           shadow-lg hover:shadow-xl transition-all duration-300
           ${isFocused ? "border-primary shadow-xl" : "border-border"}
@@ -69,14 +69,14 @@ export const SearchBar = () => {
         <Search className="w-5 h-5 text-muted-foreground flex-shrink-0" />
         <input
           type="text"
-          placeholder="Search charities by name, ID, or purpose..."
-          className="flex-1 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground text-base"
+          placeholder="Search charities..."
+          className="flex-1 min-w-0 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground text-sm md:text-base"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setTimeout(() => setIsFocused(false), 200)}
         />
-        <button className="bg-primary text-primary-foreground px-6 py-2 rounded-full font-medium hover:bg-primary/90 transition-colors">
+        <button className="bg-primary text-primary-foreground px-4 md:px-6 py-2 rounded-full font-medium hover:bg-primary/90 transition-colors text-sm md:text-base whitespace-nowrap flex-shrink-0">
           Search
         </button>
       </div>
