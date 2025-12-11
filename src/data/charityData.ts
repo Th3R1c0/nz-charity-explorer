@@ -1,3 +1,158 @@
+export const TestSearchQueryData = {
+  d: [
+    {
+      __metadata: {
+        id: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'e0524f48-a38e-ec11-bb0f-000d3acc4199',OrganisationId=73328)",
+        uri: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'e0524f48-a38e-ec11-bb0f-000d3acc4199',OrganisationId=73328)",
+        type: "Charities_ODATAModel.vOrganisations",
+      },
+      Name: "Hear For You Trust ",
+      CharityRegistrationNumber: "CC59854",
+      PostalAddressCity: "Gisborne",
+      PostalAddressSuburb: "Whataupoko",
+      RegistrationStatus: "Registered",
+      MainActivityId: 9,
+      CharitablePurpose:
+        "To raise funds and awareness for men's mental health initiatives and to help overcome or prevent mental illness and emotional distress for men in New Zealand and in particular in the Tairawhiti region. To raise funds and awareness to help reduce the rate of suicide and suicidal behaviour by promoting suicide prevention strategies, community education and support in New Zealand and in particular in the Tairawhiti region.",
+    },
+    {
+      __metadata: {
+        id: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'7709000e-2db7-ed11-bb1c-000d3acc4199',OrganisationId=74824)",
+        uri: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'7709000e-2db7-ed11-bb1c-000d3acc4199',OrganisationId=74824)",
+        type: "Charities_ODATAModel.vOrganisations",
+      },
+      Name: "Heaven Sent ",
+      CharityRegistrationNumber: "CC61245",
+      PostalAddressCity: "Pokeno",
+      PostalAddressSuburb: " ",
+      RegistrationStatus: "Registered",
+      MainActivityId: null,
+      CharitablePurpose:
+        "The purpose of the Trust will be to relieve poverty and/or assist people in their greatest\r\ntimes of need after a tragedy or crisis event. We will do this through making funds\r\navailable to purchase goods and/or services or provide any needed goods and/or services\r\nthrough the trust itself where possible.",
+    },
+    {
+      __metadata: {
+        id: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'da51676d-cdbb-ed11-bb1d-000d3acc4199',OrganisationId=74699)",
+        uri: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'da51676d-cdbb-ed11-bb1d-000d3acc4199',OrganisationId=74699)",
+        type: "Charities_ODATAModel.vOrganisations",
+      },
+      Name: "Heart Sanctuary Trust",
+      CharityRegistrationNumber: "CC61117",
+      PostalAddressCity: "Auckland",
+      PostalAddressSuburb: "Rosedale",
+      RegistrationStatus: "Registered",
+      MainActivityId: 8,
+      CharitablePurpose:
+        "Exclusively Charitable Purposes. The Trustees hold the Trust Fund on trust to pay or apply so much of the capital and income of the Trust Fund as the Trustees think fit exclusively for: \r\n- to provide Christian-based marriage and family relationship improvement course\r\n- Christian-based weekly fellowship gatherings for individuals and families for the purpose of growing and strengthening their faith and community relationships;\r\n- to provide Christian faith-based pastoral counselling and care; and",
+    },
+    {
+      __metadata: {
+        id: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'24cc2269-009b-ee11-bb29-000d3acc4199',OrganisationId=75520)",
+        uri: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'24cc2269-009b-ee11-bb29-000d3acc4199',OrganisationId=75520)",
+        type: "Charities_ODATAModel.vOrganisations",
+      },
+      Name: "Heal Health and Wellbeing ",
+      CharityRegistrationNumber: "CC61973",
+      PostalAddressCity: "Napier",
+      PostalAddressSuburb: "Poraiti",
+      RegistrationStatus: "Registered",
+      MainActivityId: 4,
+      CharitablePurpose:
+        "\r\nThe Trust's purpose is to enhance community health by promoting education, fitness, \r\nand mental well-being. It aims to achieve this through health education initiatives, events, addressing mental health challenges, improving community health infrastructure, supporting research and innovation in health, collaborating with healthcare providers. The Trust is dedicated to fostering a healthier, more informed, and empowered community through a comprehensive approach to well-being.\r\n",
+    },
+    {
+      __metadata: {
+        id: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'a60de951-61a0-ee11-bb2a-000d3acc4199',OrganisationId=75899)",
+        uri: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'a60de951-61a0-ee11-bb2a-000d3acc4199',OrganisationId=75899)",
+        type: "Charities_ODATAModel.vOrganisations",
+      },
+      Name: "Health Network Collective",
+      CharityRegistrationNumber: "CC62354",
+      PostalAddressCity: "New Plymouth",
+      PostalAddressSuburb: "Egmont Village",
+      RegistrationStatus: "Deregistered",
+      MainActivityId: 9,
+      CharitablePurpose:
+        'The purpose of the Trust is "Democratizing access to healthcare" by bringing formalized skills and a supportive systemized approach for our kaiawhina and non-regulated workforce in navigating pathways to possible cure in our community. \r\n',
+    },
+    {
+      __metadata: {
+        id: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'170a2179-1dac-ee11-bb2a-000d3acc4199',OrganisationId=75451)",
+        uri: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'170a2179-1dac-ee11-bb2a-000d3acc4199',OrganisationId=75451)",
+        type: "Charities_ODATAModel.vOrganisations",
+      },
+      Name: "Hearts and Hands Fellowship",
+      CharityRegistrationNumber: "CC61895",
+      PostalAddressCity: "Auckland",
+      PostalAddressSuburb: "Greenlane",
+      RegistrationStatus: "Registered",
+      MainActivityId: 8,
+      CharitablePurpose:
+        "To communicate the gospel of Jesus Christ in contemporary culture in ways that enable people to connect with the Trinitarian Fellowship of God.\r\nto establish, support, equip and sustain people in following Jesus Christ in the world.\r\nTo care and support people.\r\nTo support any work - including other churches - for the strengthening of Christianity",
+    },
+    {
+      __metadata: {
+        id: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'4debdac1-30b8-ee11-bb2a-000d3acc4199',OrganisationId=76014)",
+        uri: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'4debdac1-30b8-ee11-bb2a-000d3acc4199',OrganisationId=76014)",
+        type: "Charities_ODATAModel.vOrganisations",
+      },
+      Name: "Healing Rooms NZ Charitable Trust",
+      CharityRegistrationNumber: "CC62467",
+      PostalAddressCity: "Auckland",
+      PostalAddressSuburb: "Huntington Park",
+      RegistrationStatus: "Registered",
+      MainActivityId: 9,
+      CharitablePurpose:
+        "To establish, \r\nencourage, and facilitate the ministry of Healing Rooms throughout New Zealand by \r\ntraining local teams to perpetuate the international vision to see people healed, set free, \r\nand launched into their destiny through the power of the Kingdom of God, released \r\nthrough the Body of Christ.",
+    },
+    {
+      __metadata: {
+        id: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'82c44b2a-0538-ef11-bb33-000d3acc4199',OrganisationId=76017)",
+        uri: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'82c44b2a-0538-ef11-bb33-000d3acc4199',OrganisationId=76017)",
+        type: "Charities_ODATAModel.vOrganisations",
+      },
+      Name: "Heavenly Feast Global Outreach Church Inc",
+      CharityRegistrationNumber: "CC62473",
+      PostalAddressCity: "Auckland",
+      PostalAddressSuburb: "Otahuhu",
+      RegistrationStatus: "Registered",
+      MainActivityId: 8,
+      CharitablePurpose:
+        "To conduct Christian audio-visual programmes and to promote gospel awareness through audio-visual and legal broadcasts whether by radio, television or otherwise.\r\nTo conduct gospel work and conduct worship services.\r\nTo support and maintain such institutions and establishment doing gospel work and religious activities.\r\nTo arrange Christian conventions, meetings, camps, discussions and training programmes.\r\nTo publish and distribute books, periodicals, literature  connected with Christianity.",
+    },
+    {
+      __metadata: {
+        id: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'4f4f9f74-8a63-ef11-bb36-000d3acc4199',OrganisationId=77367)",
+        uri: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'4f4f9f74-8a63-ef11-bb36-000d3acc4199',OrganisationId=77367)",
+        type: "Charities_ODATAModel.vOrganisations",
+      },
+      Name: "HeArt by Aroha",
+      CharityRegistrationNumber: "CC63210",
+      PostalAddressCity: "Auckland",
+      PostalAddressSuburb: "Glenfield",
+      RegistrationStatus: "Registered",
+      MainActivityId: null,
+      CharitablePurpose:
+        "Inspired by the creative fusion of nature and art, Aroha is celebrating the beauty of our planet and raising awareness about environmental sustainability. \r\nAroha had conducted Eco Art Show competitions 25 September 2023 encouraging communities(kids and youth predominantly) to create art from waste and its planned for 8 Sep 2024 this year with double the registrations. Aroha also had involved itself in supporting and also donating for other sustainability events and shows within the communities.",
+    },
+    {
+      __metadata: {
+        id: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'41b22777-8770-ef11-bb38-000d3acc4199',OrganisationId=76290)",
+        uri: "http://www.odata.charities.govt.nz/vOrganisations(AccountId=guid'41b22777-8770-ef11-bb38-000d3acc4199',OrganisationId=76290)",
+        type: "Charities_ODATAModel.vOrganisations",
+      },
+      Name: "Head Injury Southland Charitable Trust",
+      CharityRegistrationNumber: "CC62644",
+      PostalAddressCity: "Invercargill",
+      PostalAddressSuburb: "Avenal",
+      RegistrationStatus: "Registered",
+      MainActivityId: 4,
+      CharitablePurpose:
+        "To promote, support, encourage, advance and develop services for any person living in the Southland region and their family, who is suffering, or who has suffered from, a head injury. ",
+    },
+  ],
+};
+
 export const TestFinancialCharityData = {
   d: [
     {
