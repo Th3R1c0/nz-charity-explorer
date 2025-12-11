@@ -13,6 +13,7 @@ import { MissionEfficiencyRing } from "@/components/charity/MissionEfficiencyRin
 import { CashRunwayBar } from "@/components/charity/CashRunwayBar";
 import { BalanceSheetBar } from "@/components/charity/BalanceSheetBar";
 import { StressTestSlider } from "@/components/charity/StressTestSlider";
+import { MobileDetailedInfo } from "@/components/charity/MobileDetailedInfo";
 import { transformCharityData } from "@/data/transformCharityData";
 import { CharityData } from "@/data/charityData";
 import { Shield, BarChart3, Loader2 } from "lucide-react";
@@ -129,7 +130,8 @@ const Index = () => {
           <div className="mobile-section">
             <MissionIdentity data={charityData} />
           </div>
-          <div className="space-y-0 md:space-y-6">
+          {/* Desktop: show CulturalClassification and LocationOperations */}
+          <div className="hidden md:block space-y-0 md:space-y-6">
             <div className="mobile-section">
               <CulturalClassification data={charityData} />
             </div>
@@ -137,6 +139,11 @@ const Index = () => {
               <LocationOperations data={charityData} />
             </div>
           </div>
+        </div>
+
+        {/* Mobile: Detailed Information Dropdown */}
+        <div className="mobile-section md:hidden">
+          <MobileDetailedInfo data={charityData} />
         </div>
 
         {/* Divider with Label */}
@@ -183,10 +190,10 @@ const Index = () => {
 
         <div className="space-y-0 md:space-y-0 md:grid lg:grid-cols-2 md:gap-6">
           <div className="mobile-section md:border-b-0 md:h-full">
-            <CashRunwayBar data={charityData} />
+            <BalanceSheetBar data={charityData} />
           </div>
           <div className="mobile-section md:border-b-0 md:h-full">
-            <BalanceSheetBar data={charityData} />
+            <CashRunwayBar data={charityData} />
           </div>
         </div>
 

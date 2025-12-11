@@ -28,7 +28,7 @@ export const HeroHeader = ({ data }: HeroHeaderProps) => {
       <div className="relative flex flex-col gap-4 md:gap-6 lg:flex-row lg:items-center lg:justify-between">
         {/* Left: Identity */}
         <div className="space-y-2 min-w-0">
-          <h1 className="text-lg md:text-2xl lg:text-3xl font-bold text-foreground tracking-tight leading-tight">
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground tracking-tight leading-tight">
             {data.name}
           </h1>
           

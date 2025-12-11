@@ -90,9 +90,12 @@ export const SearchBar = () => {
   // Show results when there's a query (not just when focused)
   const showResults = query.trim().length > 0;
 
+  // Show loading immediately when typing (before debounce completes)
+  const isTyping = query.trim() !== debouncedQuery.trim() && query.trim().length > 0;
+
   return (
-    <div className="w-full max-w-3xl mx-auto relative px-4 md:px-0 mb-8">
-      {/* Airbnb-style Search Bar */}
+    <div className="w-full relative mb-8">
+      {/* Full-width Search Bar */}
       <div
         className={`
           relative flex items-center gap-2 md:gap-4 px-4 md:px-6 py-3 md:py-4
@@ -121,8 +124,8 @@ export const SearchBar = () => {
 
       {/* Search Results Dropdown */}
       {showResults && (isFocused || searchResults.length > 0) && (
-        <div className="absolute top-full left-4 right-4 md:left-0 md:right-0 mt-2 bg-background border border-border rounded-2xl shadow-2xl overflow-hidden z-50 max-h-[400px] md:max-h-[500px] overflow-y-auto">
-          {isLoading ? (
+        <div className="absolute top-full left-0 right-0 mt-2 bg-background border border-border rounded-2xl shadow-2xl overflow-hidden z-50 max-h-[400px] md:max-h-[500px] overflow-y-auto">
+          {isLoading || isTyping ? (
             <div className="px-4 md:px-6 py-6 md:py-8 flex items-center justify-center text-muted-foreground text-sm md:text-base">
               <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin mr-2" />
               Searching...
