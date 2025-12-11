@@ -64,21 +64,21 @@ export const RevenueDonutChart = ({ data }: RevenueDonutChartProps) => {
   ];
 
   return (
-    <div className="glass-card rounded-2xl p-6 animate-fade-in h-full" style={{ animationDelay: "1s" }}>
-      <div className="mb-4">
-        <h3 className="text-lg font-semibold text-foreground">Revenue Sources</h3>
-        <p className="text-sm text-muted-foreground">Where the money comes from</p>
+    <div className="glass-card md:rounded-2xl p-0 md:p-6 animate-fade-in h-full" style={{ animationDelay: "1s" }}>
+      <div className="mb-3 md:mb-4">
+        <h3 className="text-base md:text-lg font-semibold text-foreground">Revenue Sources</h3>
+        <p className="text-xs md:text-sm text-muted-foreground">Where the money comes from</p>
       </div>
 
-      <div className="h-64 relative">
+      <div className="h-48 md:h-64 relative">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={chartData}
               cx="50%"
               cy="50%"
-              innerRadius={60}
-              outerRadius={90}
+              innerRadius={45}
+              outerRadius={70}
               paddingAngle={3}
               dataKey="value"
             >
@@ -93,19 +93,19 @@ export const RevenueDonutChart = ({ data }: RevenueDonutChartProps) => {
         {/* Center Label */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="text-center">
-            <p className="text-2xl font-bold text-foreground">{formatCurrency(total)}</p>
-            <p className="text-xs text-muted-foreground">Total Income</p>
+            <p className="text-lg md:text-2xl font-bold text-foreground">{formatCurrency(total)}</p>
+            <p className="text-[10px] md:text-xs text-muted-foreground">Total Income</p>
           </div>
         </div>
       </div>
 
       {/* Legend */}
-      <div className="space-y-2 mt-4">
+      <div className="space-y-1.5 md:space-y-2 mt-3 md:mt-4">
         {chartData.map((item, index) => (
-          <div key={item.name} className="flex items-center justify-between text-sm">
+          <div key={item.name} className="flex items-center justify-between text-xs md:text-sm">
             <div className="flex items-center gap-2">
               <div 
-                className="h-3 w-3 rounded-full" 
+                className="h-2.5 w-2.5 md:h-3 md:w-3 rounded-full" 
                 style={{ backgroundColor: COLORS[index] }}
               />
               <span className="text-muted-foreground">{item.name}</span>

@@ -27,34 +27,34 @@ interface StatCardProps {
 
 const StatCard = ({ title, value, subtitle, icon, trend, trendValue, delay }: StatCardProps) => (
   <div 
-    className="glass-card rounded-xl p-6 animate-fade-in hover:stat-glow transition-shadow duration-300"
+    className="glass-card-always rounded-xl p-4 md:p-6 animate-fade-in hover:stat-glow transition-shadow duration-300"
     style={{ animationDelay: `${delay}s` }}
   >
     <div className="flex items-start justify-between">
-      <div className="space-y-1">
-        <p className="text-sm text-muted-foreground">{title}</p>
-        <p className="text-2xl font-bold text-foreground">{value}</p>
+      <div className="space-y-0.5 md:space-y-1">
+        <p className="text-xs md:text-sm text-muted-foreground">{title}</p>
+        <p className="text-xl md:text-2xl font-bold text-foreground">{value}</p>
         {subtitle && (
-          <p className="text-sm text-muted-foreground">{subtitle}</p>
+          <p className="text-xs md:text-sm text-muted-foreground hidden md:block">{subtitle}</p>
         )}
       </div>
-      <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
+      <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg md:rounded-xl bg-primary/10 flex items-center justify-center">
         {icon}
       </div>
     </div>
     {trend && trendValue && (
-      <div className="mt-4 flex items-center gap-1">
+      <div className="mt-2 md:mt-4 flex items-center gap-1">
         {trend === "up" ? (
-          <TrendingUp className="h-4 w-4 text-success" />
+          <TrendingUp className="h-3 w-3 md:h-4 md:w-4 text-success" />
         ) : trend === "down" ? (
-          <TrendingDown className="h-4 w-4 text-destructive" />
+          <TrendingDown className="h-3 w-3 md:h-4 md:w-4 text-destructive" />
         ) : null}
-        <span className={`text-sm font-medium ${
+        <span className={`text-xs md:text-sm font-medium ${
           trend === "up" ? "text-success" : trend === "down" ? "text-destructive" : "text-muted-foreground"
         }`}>
           {trendValue}
         </span>
-        <span className="text-sm text-muted-foreground">vs last year</span>
+        <span className="text-xs md:text-sm text-muted-foreground">vs last year</span>
       </div>
     )}
   </div>

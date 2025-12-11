@@ -21,15 +21,15 @@ export const GovernmentDependencyGauge = ({ data }: GovernmentDependencyGaugePro
   const rotation = -90 + (percentage * 1.8);
 
   return (
-    <div className="glass-card rounded-2xl p-6 animate-fade-in" style={{ animationDelay: "1.1s" }}>
-      <div className="mb-4">
-        <h3 className="text-lg font-semibold text-foreground">Government Dependency</h3>
-        <p className="text-sm text-muted-foreground">Funding risk assessment</p>
+    <div className="glass-card md:rounded-2xl p-0 md:p-6 animate-fade-in" style={{ animationDelay: "1.1s" }}>
+      <div className="mb-3 md:mb-4">
+        <h3 className="text-base md:text-lg font-semibold text-foreground">Government Dependency</h3>
+        <p className="text-xs md:text-sm text-muted-foreground">Funding risk assessment</p>
       </div>
 
-      <div className="relative h-40 flex items-end justify-center">
+      <div className="relative h-32 md:h-40 flex items-end justify-center">
         {/* Gauge Background */}
-        <svg viewBox="0 0 200 100" className="w-full max-w-[250px]">
+        <svg viewBox="0 0 200 100" className="w-full max-w-[200px] md:max-w-[250px]">
           {/* Background arc */}
           <path
             d="M 20 100 A 80 80 0 0 1 180 100"
@@ -83,14 +83,14 @@ export const GovernmentDependencyGauge = ({ data }: GovernmentDependencyGaugePro
 
       {/* Value Display */}
       <div className="text-center mt-2">
-        <p className="text-3xl font-bold text-foreground">{roundedPercentage}%</p>
-        <p className={`text-sm font-medium ${risk.color}`}>
+        <p className="text-2xl md:text-3xl font-bold text-foreground">{roundedPercentage}%</p>
+        <p className={`text-xs md:text-sm font-medium ${risk.color}`}>
           {risk.level} Dependency
         </p>
       </div>
 
       {/* Risk Description */}
-      <p className="text-xs text-muted-foreground text-center mt-4">
+      <p className="text-[10px] md:text-xs text-muted-foreground text-center mt-3 md:mt-4">
         {roundedPercentage >= 70 
           ? "This charity relies heavily on government funding, which may pose risks if policies change."
           : roundedPercentage >= 30

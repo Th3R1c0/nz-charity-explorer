@@ -18,29 +18,29 @@ const sectorIcons: Record<string, React.ReactNode> = {
 
 export const MissionIdentity = ({ data }: MissionIdentityProps) => {
   return (
-    <section className="glass-card rounded-2xl p-8 space-y-8 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+    <section className="glass-card md:rounded-2xl p-0 md:p-8 space-y-5 md:space-y-8 animate-fade-in" style={{ animationDelay: "0.1s" }}>
       {/* Header */}
       <div className="flex items-center gap-3">
-        <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
-          {sectorIcons[data.mainSectorName] || <Heart className="h-6 w-6 text-primary" />}
+        <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg md:rounded-xl bg-primary/10 flex items-center justify-center">
+          {sectorIcons[data.mainSectorName] || <Heart className="h-5 w-5 md:h-6 md:w-6 text-primary" />}
         </div>
         <div>
-          <h2 className="text-xl font-semibold text-foreground">Mission & Purpose</h2>
-          <Badge variant="secondary" className="mt-1">{data.mainSectorName}</Badge>
+          <h2 className="text-lg md:text-xl font-semibold text-foreground">Mission & Purpose</h2>
+          <Badge variant="secondary" className="mt-1 text-xs">{data.mainSectorName}</Badge>
         </div>
       </div>
 
       {/* Mission Statement */}
-      <blockquote className="relative pl-6 border-l-4 border-primary/30 text-lg text-foreground/90 italic leading-relaxed">
+      <blockquote className="relative pl-4 md:pl-6 border-l-4 border-primary/30 text-base md:text-lg text-foreground/90 italic leading-relaxed">
         "{data.charitablePurpose}"
       </blockquote>
 
       {/* Sectors */}
-      <div className="space-y-3">
-        <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Sectors</h3>
-        <div className="flex flex-wrap gap-2">
+      <div className="space-y-2 md:space-y-3">
+        <h3 className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider">Sectors</h3>
+        <div className="flex flex-wrap gap-1.5 md:gap-2">
           {data.sectors.map((sector) => (
-            <Badge key={sector} variant="outline" className="px-4 py-2 text-sm">
+            <Badge key={sector} variant="outline" className="px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm">
               {sector}
             </Badge>
           ))}
@@ -48,26 +48,26 @@ export const MissionIdentity = ({ data }: MissionIdentityProps) => {
       </div>
 
       {/* Beneficiaries */}
-      <div className="space-y-3">
-        <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Who We Serve</h3>
-        <div className="flex flex-wrap gap-4">
+      <div className="space-y-2 md:space-y-3">
+        <h3 className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider">Who We Serve</h3>
+        <div className="flex flex-wrap gap-3 md:gap-4">
           {data.beneficiaries.map((beneficiary) => (
-            <div key={beneficiary} className="flex flex-col items-center gap-2">
-              <div className="h-14 w-14 rounded-full bg-accent flex items-center justify-center text-accent-foreground">
-                {beneficiaryIcons[beneficiary] || <Users className="h-6 w-6" />}
+            <div key={beneficiary} className="flex flex-col items-center gap-1.5 md:gap-2">
+              <div className="h-11 w-11 md:h-14 md:w-14 rounded-full bg-accent flex items-center justify-center text-accent-foreground">
+                {beneficiaryIcons[beneficiary] || <Users className="h-5 w-5 md:h-6 md:w-6" />}
               </div>
-              <span className="text-sm font-medium text-foreground">{beneficiary}</span>
+              <span className="text-xs md:text-sm font-medium text-foreground">{beneficiary}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Activities */}
-      <div className="space-y-3">
-        <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Activities</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <div className="space-y-2 md:space-y-3">
+        <h3 className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider">Activities</h3>
+        <div className="grid grid-cols-1 gap-1.5 md:gap-2">
           {data.activities.map((activity) => (
-            <div key={activity} className="flex items-center gap-2 text-foreground">
+            <div key={activity} className="flex items-center gap-2 text-sm md:text-base text-foreground">
               <Check className="h-4 w-4 text-success flex-shrink-0" />
               <span>{activity}</span>
             </div>
