@@ -115,12 +115,11 @@ export const SearchBar = () => {
           ) : (
             <div className="divide-y divide-border">
               {searchResults.map((charity, index) => {
-                const charitySlug = encodeURIComponent(charity.Name.trim());
                 return (
                 <div
                   key={charity.CharityRegistrationNumber + index}
                   className="flex items-center gap-4 px-5 py-4 hover:bg-muted/50 cursor-pointer transition-colors"
-                  onClick={() => navigate(`/charity/${charitySlug}`)}
+                  onClick={() => navigate(`/charity/${charity.CharityRegistrationNumber}`)}
                 >
                   {/* Left Column: Icon */}
                   <div className="flex-shrink-0 w-12 h-12 rounded-full bg-muted/50 flex items-center justify-center">
