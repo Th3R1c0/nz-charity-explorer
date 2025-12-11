@@ -6,8 +6,10 @@ interface LocationOperationsProps {
 }
 
 export const LocationOperations = ({ data }: LocationOperationsProps) => {
-  const fullAddress = `${data.streetAddress}, ${data.suburb}, ${data.city}, ${data.postcode}`;
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
+  const hasAddress = data.streetAddress || data.city;
+  const addressParts = [data.streetAddress, data.suburb, data.city, data.postcode].filter(Boolean);
+  const fullAddress = addressParts.length > 0 ? addressParts.join(', ') : '';
+  const mapsUrl = fullAddress ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}` : '';
 
   return (
     <section 
@@ -21,7 +23,7 @@ export const LocationOperations = ({ data }: LocationOperationsProps) => {
         </div>
         <div className="text-center md:text-left">
           <h2 className="text-lg md:text-xl font-semibold text-foreground">Location & Operations</h2>
-          <p className="text-xs md:text-sm text-muted-foreground">Operates in: <strong className="text-foreground">{data.areasOfOperation}</strong></p>
+          <p className="text-xs md:text-sm text-muted-foreground">Operates in: <strong className="text-foreground">{data.areasOfOperation || 'No data'}</strong></p>
         </div>
       </div>
 
@@ -67,7 +69,7 @@ export const LocationOperations = ({ data }: LocationOperationsProps) => {
           <MapPin className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
           <div>
             <p className="text-xs md:text-sm text-muted-foreground">Street Address</p>
-            <p className="text-sm md:text-base text-foreground">{fullAddress}</p>
+            <p className="text-sm md:text-base text-foreground">{fullAddress || 'No data available'}</p>
           </div>
         </div>
 
@@ -75,7 +77,7 @@ export const LocationOperations = ({ data }: LocationOperationsProps) => {
           <Mail className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
           <div>
             <p className="text-xs md:text-sm text-muted-foreground">Postal Address</p>
-            <p className="text-sm md:text-base text-foreground">{data.postalAddress}</p>
+            <p className="text-sm md:text-base text-foreground">{data.postalAddress || 'No data available'}</p>
           </div>
         </div>
       </div>
