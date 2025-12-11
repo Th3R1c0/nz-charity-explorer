@@ -32,7 +32,7 @@ export const MobileDetailedInfo = ({
         <ChevronDown className="w-5 h-5 text-muted-foreground transition-transform [details[open]>&]:rotate-180" />
       </summary>
       
-      <div className="px-4 pb-4 space-y-6">
+      <div className="px-4 pb-4 space-y-6 py-[3px]">
         {/* Sectors */}
         <div className="space-y-2">
           <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Sectors</h3>
