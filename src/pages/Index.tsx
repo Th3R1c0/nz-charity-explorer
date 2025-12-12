@@ -3,8 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Header } from "@/components/home/Header";
 import { HeroHeader } from "@/components/charity/HeroHeader";
 import { MissionIdentity } from "@/components/charity/MissionIdentity";
-import { CulturalClassification } from "@/components/charity/CulturalClassification";
-import { LocationOperations } from "@/components/charity/LocationOperations";
+import { MissionOverview } from "@/components/charity/MissionOverview";
 import { LegalStructure } from "@/components/charity/LegalStructure";
 import { FinancialOverviewChart } from "@/components/charity/FinancialOverviewChart";
 import { StatCards } from "@/components/charity/StatCards";
@@ -90,20 +89,14 @@ const Index = () => {
           <HeroHeader data={charityData} />
         </div>
 
-        {/* Section 2 & 3: Mission & Cultural Identity */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-6">
-          <div className="mobile-section">
-            <MissionIdentity data={charityData} />
-          </div>
-          {/* Desktop: show CulturalClassification and LocationOperations */}
-          <div className="hidden md:block space-y-0 md:space-y-6">
-            <div className="mobile-section">
-              <CulturalClassification data={charityData} />
-            </div>
-            <div className="mobile-section">
-              <LocationOperations data={charityData} />
-            </div>
-          </div>
+        {/* Desktop: Combined Mission Overview Card */}
+        <div className="hidden md:block">
+          <MissionOverview data={charityData} />
+        </div>
+
+        {/* Mobile: Original Mission Identity */}
+        <div className="mobile-section md:hidden">
+          <MissionIdentity data={charityData} />
         </div>
 
         {/* Mobile: Detailed Information Dropdown */}
