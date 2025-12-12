@@ -1,4 +1,4 @@
-const top10revenue = {
+export const top10revenue = {
   d: [
     {
       __metadata: {
@@ -143,7 +143,7 @@ const top10revenue = {
   ],
 };
 
-const top10profit = {
+export const top10profit = {
   d: [
     {
       __metadata: {
@@ -288,7 +288,7 @@ const top10profit = {
   ],
 };
 
-const top10assets = {
+export const top10assets = {
   d: [
     {
       __metadata: {
@@ -433,7 +433,7 @@ const top10assets = {
   ],
 };
 
-const top10staff = {
+export const top10staff = {
   d: [
     {
       __metadata: {
