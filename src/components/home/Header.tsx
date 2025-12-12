@@ -53,10 +53,10 @@ export const Header = () => {
             <DropdownMenuTrigger asChild>
               <Button 
                 variant="ghost" 
-                size="sm"
-                className="gap-2 hover:bg-muted min-w-[100px]"
+                size="icon"
+                className="hover:bg-muted sm:w-auto sm:px-3 sm:gap-2"
               >
-                <Globe className="w-4 h-4" />
+                <Globe className="w-5 h-5 sm:w-4 sm:h-4" />
                 <span className="hidden sm:inline">{currentLanguage?.label}</span>
               </Button>
             </DropdownMenuTrigger>
