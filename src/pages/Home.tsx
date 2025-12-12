@@ -1,5 +1,6 @@
 import { Header } from "@/components/home/Header";
 import { SearchBar } from "@/components/home/SearchBar";
+import { SectorRankings } from "@/components/home/SectorRankings";
 
 const Home = () => {
   return (
@@ -7,7 +8,7 @@ const Home = () => {
       <Header />
       
       {/* Hero Section */}
-      <main className="pt-24 pb-16 flex items-center justify-center min-h-[calc(100vh-6rem)]">
+      <main className="pt-24 pb-16 flex items-center justify-center min-h-screen">
         <div className="w-full max-w-5xl mx-auto px-4 md:px-6 text-center flex flex-col items-center">
           {/* Hero Text */}
           <div className="mb-8 md:mb-12">
@@ -50,6 +51,9 @@ const Home = () => {
           </p>
         </div>
       </main>
+
+      {/* Sector Rankings Section */}
+      <SectorRankings />
     </div>
   );
 };
