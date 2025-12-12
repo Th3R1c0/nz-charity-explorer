@@ -114,7 +114,12 @@ export const SearchBar = () => {
         `}>
         <Search className="w-5 h-5 text-muted-foreground flex-shrink-0" />
         <input type="text" className="flex-1 min-w-0 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground text-sm md:text-base text-left" value={query} onChange={e => setQuery(e.target.value)} onFocus={() => setIsFocused(true)} onBlur={() => setTimeout(() => setIsFocused(false), 200)} placeholder="Try 'St John', 'Mental Health', or 'CC23456'..." />
-        <button onClick={query ? handleClear : undefined} className="bg-primary text-primary-foreground px-4 md:px-6 py-2 rounded-full font-medium hover:bg-primary/90 transition-colors text-sm md:text-base whitespace-nowrap flex-shrink-0">
+        <button 
+          onClick={query ? handleClear : undefined} 
+          className={`bg-primary text-primary-foreground w-9 h-9 md:w-10 md:h-10 rounded-full font-medium hover:bg-primary/90 transition-all flex items-center justify-center flex-shrink-0 ${
+            query ? 'opacity-100' : 'opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto'
+          }`}
+        >
           {query ? <X className="w-4 h-4" /> : <ChevronsRight className="w-4 h-4" />}
         </button>
       </div>

@@ -14,9 +14,9 @@ import {
 type Language = "en" | "mi" | "ja";
 
 const languages = [
-  { code: "en" as Language, label: "English", flag: "🇬🇧", enabled: true },
-  { code: "mi" as Language, label: "Te Reo Māori", flag: "🇳🇿", enabled: false },
-  { code: "ja" as Language, label: "日本語", flag: "🇯🇵", enabled: false },
+  { code: "en" as Language, label: "English", enabled: true },
+  { code: "mi" as Language, label: "Te Reo Māori", enabled: false },
+  { code: "ja" as Language, label: "日本語", enabled: false },
 ];
 
 export const Header = () => {
@@ -29,7 +29,7 @@ export const Header = () => {
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="CharityNZ Logo" className="w-8 h-8" />
+          <img src={logo} alt="CharityNZ Logo" className="w-8 h-8 rounded-full" />
           <span className="font-semibold text-lg text-foreground">CharityNZ</span>
         </Link>
         
@@ -54,11 +54,10 @@ export const Header = () => {
               <Button 
                 variant="ghost" 
                 size="sm"
-                className="gap-2 hover:bg-muted"
+                className="gap-2 hover:bg-muted min-w-[100px]"
               >
                 <Globe className="w-4 h-4" />
-                <span className="hidden sm:inline">{currentLanguage?.flag} {currentLanguage?.label}</span>
-                <span className="sm:hidden">{currentLanguage?.flag}</span>
+                <span className="hidden sm:inline">{currentLanguage?.label}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-popover border border-border z-50">
@@ -71,12 +70,8 @@ export const Header = () => {
                     !lang.enabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
                   }`}
                 >
-                  <span className="flex items-center gap-2">
-                    <span>{lang.flag}</span>
-                    <span>{lang.label}</span>
-                  </span>
+                  <span>{lang.label}</span>
                   {language === lang.code && <Check className="w-4 h-4 text-primary" />}
-                  {!lang.enabled && <span className="text-xs text-muted-foreground">Coming soon</span>}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
