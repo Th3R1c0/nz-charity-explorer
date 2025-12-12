@@ -120,7 +120,7 @@ export const SearchBar = () => {
         <Search className="w-5 h-5 text-muted-foreground flex-shrink-0" />
         <input
           type="text"
-          placeholder="Search charities..."
+          placeholder='Try searching "Heart" or "Health" to see results'
           className="flex-1 min-w-0 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground text-sm md:text-base text-left"
           value={query}
           onChange={(e) => setQuery(e.target.value)}

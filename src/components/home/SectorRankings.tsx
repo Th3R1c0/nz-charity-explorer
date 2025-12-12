@@ -226,7 +226,7 @@ export const SectorRankings = () => {
 
         {/* Desktop Table */}
         <div className="hidden md:block bg-card border border-border rounded-xl overflow-hidden">
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <table className="w-full">
               <thead className="bg-muted/50 sticky top-0">
                 <tr>
@@ -307,20 +307,22 @@ export const SectorRankings = () => {
                       <span className="text-sm text-primary">{charity.MainSectorName || "—"}</span>
                     </td>
                     <td className="py-4 px-4 text-right">
-                      <span className="font-bold text-foreground">
+                      <span className={sortField === "TotalGrossIncome" ? "font-bold text-foreground" : "text-foreground"}>
                         {formatCurrency(charity.TotalGrossIncome)}
                       </span>
                     </td>
                     <td className="py-4 px-4 text-right">
-                      <NetResult value={charity.NetSurplusDeficitForTheYear} />
+                      <span className={sortField === "NetSurplusDeficitForTheYear" ? "font-bold" : ""}>
+                        <NetResult value={charity.NetSurplusDeficitForTheYear} />
+                      </span>
                     </td>
-                    <td className="py-4 px-4 text-right text-foreground">
+                    <td className={`py-4 px-4 text-right text-foreground ${sortField === "TotalAssets" ? "font-bold" : ""}`}>
                       {formatCurrency(charity.TotalAssets)}
                     </td>
-                    <td className="py-4 px-4 text-right text-foreground">
+                    <td className={`py-4 px-4 text-right text-foreground ${sortField === "NumberOfFulltimeEmployees" ? "font-bold" : ""}`}>
                       {charity.NumberOfFulltimeEmployees || 0}
                     </td>
-                    <td className="py-4 px-4 text-right text-foreground">
+                    <td className={`py-4 px-4 text-right text-foreground ${sortField === "DonationsKoha" ? "font-bold" : ""}`}>
                       {formatCurrency(charity.DonationsKoha)}
                     </td>
                   </tr>
