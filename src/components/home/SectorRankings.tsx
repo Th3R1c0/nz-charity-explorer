@@ -168,21 +168,11 @@ export const SectorRankings = () => {
           
           {/* Desktop filters */}
           <div className="hidden md:flex items-center gap-3">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2">
-                  <Filter className="w-4 h-4" />
-                  Sector: All
-                  <ChevronDown className="w-3 h-3" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-popover">
-                <DropdownMenuItem>All Sectors</DropdownMenuItem>
-                <DropdownMenuItem>Health</DropdownMenuItem>
-                <DropdownMenuItem>Education</DropdownMenuItem>
-                <DropdownMenuItem>Social Services</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Button variant="outline" size="sm" className="gap-2" disabled>
+              <Filter className="w-4 h-4" />
+              Sector: All
+              <ChevronDown className="w-3 h-3" />
+            </Button>
           </div>
 
           {/* Mobile controls */}
@@ -208,19 +198,10 @@ export const SectorRankings = () => {
               </DropdownMenuContent>
             </DropdownMenu>
             
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2">
-                  <Filter className="w-4 h-4" />
-                  Filter
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-popover">
-                <DropdownMenuItem>All Sectors</DropdownMenuItem>
-                <DropdownMenuItem>Health</DropdownMenuItem>
-                <DropdownMenuItem>Education</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Button variant="outline" size="sm" className="gap-2" disabled>
+              <Filter className="w-4 h-4" />
+              Filter
+            </Button>
           </div>
         </div>
 
