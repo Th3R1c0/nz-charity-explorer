@@ -25,7 +25,6 @@ import {
   top10revenue,
   top10profit,
   top10assets,
-  top10govdependency,
   top10staff,
 } from "@/data/charityData";
 
@@ -35,7 +34,6 @@ interface CharityData {
   TotalGrossIncome: number | null;
   NetSurplusDeficitForTheYear: number | null;
   TotalAssets: number | null;
-  GovtGrantsContracts: number | null;
   NumberOfFulltimeEmployees: number | null;
   MainActivityId?: number | null;
   Location?: string;
@@ -51,18 +49,7 @@ const SECTOR_ICONS: Record<number, React.ReactNode> = {
   9: <Heart className="w-4 h-4" />,
 };
 
-const SECTOR_NAMES: Record<number, string> = {
-  1: "Arts/Culture",
-  2: "Health",
-  3: "Education",
-  4: "Social Services",
-  5: "Environment",
-  6: "Religion",
-  9: "Health",
-};
-
-type SortField = "TotalGrossIncome" | "TotalAssets" | "NetSurplusDeficitForTheYear" | "NumberOfFulltimeEmployees" | "govtDependency";
-type SortDirection = "asc" | "desc";
+type SortField = "TotalGrossIncome" | "TotalAssets" | "NetSurplusDeficitForTheYear" | "NumberOfFulltimeEmployees";
 
 const formatCurrency = (value: number | null): string => {
   if (value === null || value === undefined) return "—";
@@ -71,12 +58,6 @@ const formatCurrency = (value: number | null): string => {
   if (absValue >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
   if (absValue >= 1000) return `$${(value / 1000).toFixed(0)}K`;
   return `$${value.toLocaleString()}`;
-};
-
-const calculateGovtDependency = (govt: number | null | undefined, total: number | null | undefined): number | null => {
-  if (total === null || total === undefined || total <= 0) return null;
-  if (govt === null || govt === undefined) return null;
-  return Math.round((govt / total) * 100);
 };
 
 // Map sort fields to data sources
@@ -88,8 +69,6 @@ const getDataForSortField = (field: SortField): CharityData[] => {
       return top10profit.d as CharityData[];
     case "TotalAssets":
       return top10assets.d as CharityData[];
-    case "govtDependency":
-      return top10govdependency.d as CharityData[];
     case "NumberOfFulltimeEmployees":
       return top10staff.d as CharityData[];
     default:
@@ -100,35 +79,15 @@ const getDataForSortField = (field: SortField): CharityData[] => {
 export const SectorRankings = () => {
   const navigate = useNavigate();
   const [sortField, setSortField] = useState<SortField>("TotalGrossIncome");
-  const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
 
-  // Get data based on sort field
+  // Get data based on sort field - data is already sorted from source
   const charities = useMemo(() => {
     return getDataForSortField(sortField);
   }, [sortField]);
 
   const handleSort = (field: SortField) => {
-    if (sortField === field) {
-      setSortDirection(prev => prev === "asc" ? "desc" : "asc");
-    } else {
-      setSortField(field);
-      setSortDirection("desc");
-    }
+    setSortField(field);
   };
-
-  const sortedCharities = [...charities].sort((a, b) => {
-    let aVal: number, bVal: number;
-    
-    if (sortField === "govtDependency") {
-      aVal = calculateGovtDependency(a.GovtGrantsContracts, a.TotalGrossIncome) ?? 0;
-      bVal = calculateGovtDependency(b.GovtGrantsContracts, b.TotalGrossIncome) ?? 0;
-    } else {
-      aVal = (a[sortField] as number) || 0;
-      bVal = (b[sortField] as number) || 0;
-    }
-
-    return sortDirection === "desc" ? bVal - aVal : aVal - bVal;
-  });
 
   const handleRowClick = (cc: string) => {
     navigate(`/charity/${cc}`);
@@ -136,26 +95,7 @@ export const SectorRankings = () => {
 
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) return <ArrowUpDown className="w-3.5 h-3.5 text-muted-foreground/50" />;
-    return sortDirection === "desc" 
-      ? <ArrowDown className="w-3.5 h-3.5 text-primary" />
-      : <ArrowUp className="w-3.5 h-3.5 text-primary" />;
-  };
-
-  const GovtBar = ({ percentage }: { percentage: number | null }) => {
-    if (percentage === null) {
-      return <span className="text-muted-foreground text-sm">—</span>;
-    }
-    return (
-      <div className="flex items-center gap-2">
-        <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
-          <div 
-            className="h-full bg-chart-govt rounded-full transition-all duration-500"
-            style={{ width: `${Math.min(percentage, 100)}%` }}
-          />
-        </div>
-        <span className="text-xs text-muted-foreground">{percentage}%</span>
-      </div>
-    );
+    return <ArrowDown className="w-3.5 h-3.5 text-primary" />;
   };
 
   const NetResult = ({ value }: { value: number | null }) => {
@@ -170,7 +110,6 @@ export const SectorRankings = () => {
 
   // Mobile card component
   const MobileCard = ({ charity, index }: { charity: CharityData; index: number }) => {
-    const govtPct = calculateGovtDependency(charity.GovtGrantsContracts, charity.TotalGrossIncome);
     const sectorIcon = charity.MainActivityId ? SECTOR_ICONS[charity.MainActivityId] : <Briefcase className="w-4 h-4" />;
 
     return (
@@ -199,7 +138,7 @@ export const SectorRankings = () => {
           </div>
         </div>
         
-        <div className="grid grid-cols-2 gap-3 text-sm">
+        <div className="grid grid-cols-3 gap-3 text-sm">
           <div>
             <p className="text-xs text-muted-foreground">Assets</p>
             <p className="font-medium text-foreground">{formatCurrency(charity.TotalAssets)}</p>
@@ -207,10 +146,6 @@ export const SectorRankings = () => {
           <div>
             <p className="text-xs text-muted-foreground">Staff</p>
             <p className="font-medium text-foreground">{charity.NumberOfFulltimeEmployees || 0}</p>
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground">Govt Funded</p>
-            <p className="font-medium text-foreground">{govtPct !== null ? `${govtPct}%` : "—"}</p>
           </div>
           <div>
             <p className="text-xs text-muted-foreground">Profit</p>
@@ -223,9 +158,9 @@ export const SectorRankings = () => {
 
   const sortOptions = [
     { label: "Highest Revenue", field: "TotalGrossIncome" as SortField },
+    { label: "Highest Profit", field: "NetSurplusDeficitForTheYear" as SortField },
     { label: "Largest Assets", field: "TotalAssets" as SortField },
     { label: "Most Staff", field: "NumberOfFulltimeEmployees" as SortField },
-    { label: "Govt Dependency", field: "govtDependency" as SortField },
   ];
 
   return (
@@ -337,15 +272,6 @@ export const SectorRankings = () => {
                     </div>
                   </th>
                   <th 
-                    className="text-left py-4 px-4 font-semibold text-foreground text-sm cursor-pointer hover:bg-muted/80 transition-colors"
-                    onClick={() => handleSort("govtDependency")}
-                  >
-                    <div className="flex items-center gap-1.5">
-                      Govt Dependency
-                      <SortIcon field="govtDependency" />
-                    </div>
-                  </th>
-                  <th 
                     className="text-right py-4 px-4 font-semibold text-foreground text-sm cursor-pointer hover:bg-muted/80 transition-colors"
                     onClick={() => handleSort("NumberOfFulltimeEmployees")}
                   >
@@ -357,8 +283,7 @@ export const SectorRankings = () => {
                 </tr>
               </thead>
               <tbody>
-                {sortedCharities.map((charity, index) => {
-                  const govtPct = calculateGovtDependency(charity.GovtGrantsContracts, charity.TotalGrossIncome);
+                {charities.map((charity, index) => {
                   const sectorIcon = charity.MainActivityId ? SECTOR_ICONS[charity.MainActivityId] : <Briefcase className="w-4 h-4" />;
                   
                   return (
@@ -390,9 +315,6 @@ export const SectorRankings = () => {
                       <td className="py-4 px-4 text-right text-foreground">
                         {formatCurrency(charity.TotalAssets)}
                       </td>
-                      <td className="py-4 px-4">
-                        <GovtBar percentage={govtPct} />
-                      </td>
                       <td className="py-4 px-4 text-right text-foreground">
                         {charity.NumberOfFulltimeEmployees || 0}
                       </td>
@@ -406,7 +328,7 @@ export const SectorRankings = () => {
 
         {/* Mobile Card List */}
         <div className="md:hidden space-y-3">
-          {sortedCharities.map((charity, index) => (
+          {charities.map((charity, index) => (
             <MobileCard key={charity.CharityRegistrationNumber} charity={charity} index={index} />
           ))}
         </div>
