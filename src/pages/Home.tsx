@@ -1,5 +1,6 @@
 import { Header } from "@/components/home/Header";
 import { SearchBar } from "@/components/home/SearchBar";
+import { SectorPulse } from "@/components/home/SectorPulse";
 import { SectorRankings } from "@/components/home/SectorRankings";
 
 const Home = () => {
@@ -51,6 +52,9 @@ const Home = () => {
           </p>
         </div>
       </main>
+
+      {/* Sector Pulse - Executive Summary */}
+      <SectorPulse />
 
       {/* Sector Rankings Section */}
       <SectorRankings />
