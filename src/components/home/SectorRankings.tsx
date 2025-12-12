@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
   ArrowUpDown, 
@@ -21,7 +21,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Skeleton } from "@/components/ui/skeleton";
+import {
+  top10revenue,
+  top10profit,
+  top10assets,
+  top10govdependency,
+  top10staff,
+} from "@/data/charityData";
 
 interface CharityData {
   Name: string;
@@ -33,15 +39,6 @@ interface CharityData {
   NumberOfFulltimeEmployees: number | null;
   MainActivityId?: number | null;
   Location?: string;
-}
-
-interface OrgData {
-  CharityRegistrationNumber: string;
-  MainActivityId: number | null;
-  StreetAddressCity: string | null;
-  StreetAddressSuburb: string | null;
-  PostalAddressCity: string | null;
-  PostalAddressSuburb: string | null;
 }
 
 const SECTOR_ICONS: Record<number, React.ReactNode> = {
@@ -76,65 +73,39 @@ const formatCurrency = (value: number | null): string => {
   return `$${value.toLocaleString()}`;
 };
 
-const calculateGovtDependency = (govt: number | null, total: number | null): number | null => {
+const calculateGovtDependency = (govt: number | null | undefined, total: number | null | undefined): number | null => {
   if (total === null || total === undefined || total <= 0) return null;
   if (govt === null || govt === undefined) return null;
   return Math.round((govt / total) * 100);
 };
 
+// Map sort fields to data sources
+const getDataForSortField = (field: SortField): CharityData[] => {
+  switch (field) {
+    case "TotalGrossIncome":
+      return top10revenue.d as CharityData[];
+    case "NetSurplusDeficitForTheYear":
+      return top10profit.d as CharityData[];
+    case "TotalAssets":
+      return top10assets.d as CharityData[];
+    case "govtDependency":
+      return top10govdependency.d as CharityData[];
+    case "NumberOfFulltimeEmployees":
+      return top10staff.d as CharityData[];
+    default:
+      return top10revenue.d as CharityData[];
+  }
+};
+
 export const SectorRankings = () => {
   const navigate = useNavigate();
-  const [charities, setCharities] = useState<CharityData[]>([]);
-  const [loading, setLoading] = useState(true);
   const [sortField, setSortField] = useState<SortField>("TotalGrossIncome");
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch top 10 charities by revenue
-        const returnsUrl = `https://corsproxy.io/?${encodeURIComponent(
-          "http://www.odata.charities.govt.nz/GrpOrgLatestReturns?$orderby=TotalGrossIncome desc&$top=10&$select=Name,CharityRegistrationNumber,TotalGrossIncome,NetSurplusDeficitForTheYear,TotalAssets,GovtGrantsContracts,NumberOfFulltimeEmployees&$format=json"
-        )}`;
-
-        const returnsRes = await fetch(returnsUrl);
-        const returnsData = await returnsRes.json();
-        const results: CharityData[] = returnsData.d || [];
-
-        if (results.length > 0) {
-          // Fetch sector/location data for each charity
-          const ccNumbers = results.map(c => c.CharityRegistrationNumber);
-          const filterStr = ccNumbers.map(cc => `CharityRegistrationNumber eq '${cc}'`).join(" or ");
-          const orgsUrl = `https://corsproxy.io/?${encodeURIComponent(
-            `http://www.odata.charities.govt.nz/vOrganisations?$filter=${filterStr}&$select=CharityRegistrationNumber,MainActivityId,StreetAddressCity,StreetAddressSuburb,PostalAddressCity,PostalAddressSuburb&$format=json`
-          )}`;
-
-          const orgsRes = await fetch(orgsUrl);
-          const orgsData = await orgsRes.json();
-          const orgs: OrgData[] = orgsData.d || [];
-
-          // Merge data
-          const merged = results.map(charity => {
-            const org = orgs.find(o => o.CharityRegistrationNumber === charity.CharityRegistrationNumber);
-            const location = org?.StreetAddressCity || org?.PostalAddressCity || "NZ";
-            return {
-              ...charity,
-              MainActivityId: org?.MainActivityId || null,
-              Location: location,
-            };
-          });
-
-          setCharities(merged);
-        }
-      } catch (error) {
-        console.error("Error fetching sector rankings:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  // Get data based on sort field
+  const charities = useMemo(() => {
+    return getDataForSortField(sortField);
+  }, [sortField]);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -149,8 +120,8 @@ export const SectorRankings = () => {
     let aVal: number, bVal: number;
     
     if (sortField === "govtDependency") {
-      aVal = calculateGovtDependency(a.GovtGrantsContracts, a.TotalGrossIncome);
-      bVal = calculateGovtDependency(b.GovtGrantsContracts, b.TotalGrossIncome);
+      aVal = calculateGovtDependency(a.GovtGrantsContracts, a.TotalGrossIncome) ?? 0;
+      bVal = calculateGovtDependency(b.GovtGrantsContracts, b.TotalGrossIncome) ?? 0;
     } else {
       aVal = (a[sortField] as number) || 0;
       bVal = (b[sortField] as number) || 0;
@@ -386,61 +357,48 @@ export const SectorRankings = () => {
                 </tr>
               </thead>
               <tbody>
-                {loading ? (
-                  Array.from({ length: 5 }).map((_, i) => (
-                    <tr key={i} className="border-t border-border">
-                      <td className="py-4 px-4"><Skeleton className="h-5 w-48" /></td>
-                      <td className="py-4 px-4"><Skeleton className="h-5 w-20 ml-auto" /></td>
-                      <td className="py-4 px-4"><Skeleton className="h-5 w-20 ml-auto" /></td>
-                      <td className="py-4 px-4"><Skeleton className="h-5 w-20 ml-auto" /></td>
-                      <td className="py-4 px-4"><Skeleton className="h-5 w-24" /></td>
-                      <td className="py-4 px-4"><Skeleton className="h-5 w-12 ml-auto" /></td>
-                    </tr>
-                  ))
-                ) : (
-                  sortedCharities.map((charity, index) => {
-                    const govtPct = calculateGovtDependency(charity.GovtGrantsContracts, charity.TotalGrossIncome);
-                    const sectorIcon = charity.MainActivityId ? SECTOR_ICONS[charity.MainActivityId] : <Briefcase className="w-4 h-4" />;
-                    
-                    return (
-                      <tr 
-                        key={charity.CharityRegistrationNumber}
-                        onClick={() => handleRowClick(charity.CharityRegistrationNumber)}
-                        className="border-t border-border cursor-pointer hover:bg-muted/30 transition-colors animate-fade-in"
-                        style={{ animationDelay: `${index * 30}ms` }}
-                      >
-                        <td className="py-4 px-4">
-                          <div className="flex items-center gap-3">
-                            <div className="p-1.5 bg-accent rounded-lg text-accent-foreground">
-                              {sectorIcon}
-                            </div>
-                            <div>
-                              <p className="font-medium text-foreground line-clamp-1">{charity.Name}</p>
-                              <p className="text-xs text-muted-foreground">{charity.Location}</p>
-                            </div>
+                {sortedCharities.map((charity, index) => {
+                  const govtPct = calculateGovtDependency(charity.GovtGrantsContracts, charity.TotalGrossIncome);
+                  const sectorIcon = charity.MainActivityId ? SECTOR_ICONS[charity.MainActivityId] : <Briefcase className="w-4 h-4" />;
+                  
+                  return (
+                    <tr 
+                      key={charity.CharityRegistrationNumber}
+                      onClick={() => handleRowClick(charity.CharityRegistrationNumber)}
+                      className="border-t border-border cursor-pointer hover:bg-muted/30 transition-colors animate-fade-in"
+                      style={{ animationDelay: `${index * 30}ms` }}
+                    >
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-3">
+                          <div className="p-1.5 bg-accent rounded-lg text-accent-foreground">
+                            {sectorIcon}
                           </div>
-                        </td>
-                        <td className="py-4 px-4 text-right">
-                          <span className="font-bold text-foreground">
-                            {formatCurrency(charity.TotalGrossIncome)}
-                          </span>
-                        </td>
-                        <td className="py-4 px-4 text-right">
-                          <NetResult value={charity.NetSurplusDeficitForTheYear} />
-                        </td>
-                        <td className="py-4 px-4 text-right text-foreground">
-                          {formatCurrency(charity.TotalAssets)}
-                        </td>
-                        <td className="py-4 px-4">
-                          <GovtBar percentage={govtPct} />
-                        </td>
-                        <td className="py-4 px-4 text-right text-foreground">
-                          {charity.NumberOfFulltimeEmployees || 0}
-                        </td>
-                      </tr>
-                    );
-                  })
-                )}
+                          <div>
+                            <p className="font-medium text-foreground line-clamp-1">{charity.Name}</p>
+                            <p className="text-xs text-muted-foreground">{charity.Location || "NZ"}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4 text-right">
+                        <span className="font-bold text-foreground">
+                          {formatCurrency(charity.TotalGrossIncome)}
+                        </span>
+                      </td>
+                      <td className="py-4 px-4 text-right">
+                        <NetResult value={charity.NetSurplusDeficitForTheYear} />
+                      </td>
+                      <td className="py-4 px-4 text-right text-foreground">
+                        {formatCurrency(charity.TotalAssets)}
+                      </td>
+                      <td className="py-4 px-4">
+                        <GovtBar percentage={govtPct} />
+                      </td>
+                      <td className="py-4 px-4 text-right text-foreground">
+                        {charity.NumberOfFulltimeEmployees || 0}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -448,26 +406,9 @@ export const SectorRankings = () => {
 
         {/* Mobile Card List */}
         <div className="md:hidden space-y-3">
-          {loading ? (
-            Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="bg-card border border-border rounded-xl p-4">
-                <div className="flex justify-between mb-3">
-                  <Skeleton className="h-5 w-40" />
-                  <Skeleton className="h-6 w-20" />
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <Skeleton className="h-8 w-full" />
-                  <Skeleton className="h-8 w-full" />
-                  <Skeleton className="h-8 w-full" />
-                  <Skeleton className="h-8 w-full" />
-                </div>
-              </div>
-            ))
-          ) : (
-            sortedCharities.map((charity, index) => (
-              <MobileCard key={charity.CharityRegistrationNumber} charity={charity} index={index} />
-            ))
-          )}
+          {sortedCharities.map((charity, index) => (
+            <MobileCard key={charity.CharityRegistrationNumber} charity={charity} index={index} />
+          ))}
         </div>
       </div>
     </section>
