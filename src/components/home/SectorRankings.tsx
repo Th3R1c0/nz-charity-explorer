@@ -2,16 +2,9 @@ import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
   ArrowUpDown, 
-  ArrowUp, 
   ArrowDown, 
   Filter, 
-  Building2, 
-  Heart, 
-  GraduationCap, 
-  Users, 
-  Leaf, 
-  Church, 
-  Briefcase,
+  MapPin,
   ChevronDown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -26,30 +19,22 @@ import {
   top10profit,
   top10assets,
   top10staff,
+  top10donations,
 } from "@/data/charityData";
 
 interface CharityData {
   Name: string;
   CharityRegistrationNumber: string;
+  StreetAddressCity: string | null;
+  MainSectorName: string | null;
   TotalGrossIncome: number | null;
   NetSurplusDeficitForTheYear: number | null;
   TotalAssets: number | null;
   NumberOfFulltimeEmployees: number | null;
-  MainActivityId?: number | null;
-  Location?: string;
+  DonationsKoha: number | null;
 }
 
-const SECTOR_ICONS: Record<number, React.ReactNode> = {
-  1: <Building2 className="w-4 h-4" />,
-  2: <Heart className="w-4 h-4" />,
-  3: <GraduationCap className="w-4 h-4" />,
-  4: <Users className="w-4 h-4" />,
-  5: <Leaf className="w-4 h-4" />,
-  6: <Church className="w-4 h-4" />,
-  9: <Heart className="w-4 h-4" />,
-};
-
-type SortField = "TotalGrossIncome" | "TotalAssets" | "NetSurplusDeficitForTheYear" | "NumberOfFulltimeEmployees";
+type SortField = "TotalGrossIncome" | "TotalAssets" | "NetSurplusDeficitForTheYear" | "NumberOfFulltimeEmployees" | "DonationsKoha";
 
 const formatCurrency = (value: number | null): string => {
   if (value === null || value === undefined) return "—";
@@ -71,6 +56,8 @@ const getDataForSortField = (field: SortField): CharityData[] => {
       return top10assets.d as CharityData[];
     case "NumberOfFulltimeEmployees":
       return top10staff.d as CharityData[];
+    case "DonationsKoha":
+      return top10donations.d as CharityData[];
     default:
       return top10revenue.d as CharityData[];
   }
@@ -110,8 +97,6 @@ export const SectorRankings = () => {
 
   // Mobile card component
   const MobileCard = ({ charity, index }: { charity: CharityData; index: number }) => {
-    const sectorIcon = charity.MainActivityId ? SECTOR_ICONS[charity.MainActivityId] : <Briefcase className="w-4 h-4" />;
-
     return (
       <div 
         onClick={() => handleRowClick(charity.CharityRegistrationNumber)}
@@ -119,16 +104,15 @@ export const SectorRankings = () => {
         style={{ animationDelay: `${index * 50}ms` }}
       >
         <div className="flex justify-between items-start mb-3">
-          <div className="flex items-center gap-2 flex-1 min-w-0">
-            <div className="p-1.5 bg-accent rounded-lg text-accent-foreground shrink-0">
-              {sectorIcon}
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-foreground text-sm leading-tight line-clamp-2">
+              {charity.Name}
+            </h3>
+            <div className="flex items-center gap-1 mt-1">
+              <MapPin className="w-3 h-3 text-muted-foreground" />
+              <p className="text-xs text-muted-foreground">{charity.StreetAddressCity || "—"}</p>
             </div>
-            <div className="min-w-0">
-              <h3 className="font-semibold text-foreground text-sm leading-tight line-clamp-2">
-                {charity.Name}
-              </h3>
-              <p className="text-xs text-muted-foreground">{charity.Location}</p>
-            </div>
+            <p className="text-xs text-primary mt-0.5">{charity.MainSectorName || "—"}</p>
           </div>
           <div className="text-right shrink-0 ml-2">
             <p className="text-lg font-bold text-foreground">
@@ -138,7 +122,11 @@ export const SectorRankings = () => {
           </div>
         </div>
         
-        <div className="grid grid-cols-3 gap-3 text-sm">
+        <div className="grid grid-cols-4 gap-2 text-sm">
+          <div>
+            <p className="text-xs text-muted-foreground">Profit</p>
+            <NetResult value={charity.NetSurplusDeficitForTheYear} />
+          </div>
           <div>
             <p className="text-xs text-muted-foreground">Assets</p>
             <p className="font-medium text-foreground">{formatCurrency(charity.TotalAssets)}</p>
@@ -148,8 +136,8 @@ export const SectorRankings = () => {
             <p className="font-medium text-foreground">{charity.NumberOfFulltimeEmployees || 0}</p>
           </div>
           <div>
-            <p className="text-xs text-muted-foreground">Profit</p>
-            <NetResult value={charity.NetSurplusDeficitForTheYear} />
+            <p className="text-xs text-muted-foreground">Donations</p>
+            <p className="font-medium text-foreground">{formatCurrency(charity.DonationsKoha)}</p>
           </div>
         </div>
       </div>
@@ -161,6 +149,7 @@ export const SectorRankings = () => {
     { label: "Highest Profit", field: "NetSurplusDeficitForTheYear" as SortField },
     { label: "Largest Assets", field: "TotalAssets" as SortField },
     { label: "Most Staff", field: "NumberOfFulltimeEmployees" as SortField },
+    { label: "Most Donations", field: "DonationsKoha" as SortField },
   ];
 
   return (
@@ -244,6 +233,12 @@ export const SectorRankings = () => {
                   <th className="text-left py-4 px-4 font-semibold text-foreground text-sm">
                     Charity Name
                   </th>
+                  <th className="text-left py-4 px-4 font-semibold text-foreground text-sm">
+                    Location
+                  </th>
+                  <th className="text-left py-4 px-4 font-semibold text-foreground text-sm">
+                    Sector
+                  </th>
                   <th 
                     className="text-right py-4 px-4 font-semibold text-foreground text-sm cursor-pointer hover:bg-muted/80 transition-colors"
                     onClick={() => handleSort("TotalGrossIncome")}
@@ -280,47 +275,56 @@ export const SectorRankings = () => {
                       <SortIcon field="NumberOfFulltimeEmployees" />
                     </div>
                   </th>
+                  <th 
+                    className="text-right py-4 px-4 font-semibold text-foreground text-sm cursor-pointer hover:bg-muted/80 transition-colors"
+                    onClick={() => handleSort("DonationsKoha")}
+                  >
+                    <div className="flex items-center justify-end gap-1.5">
+                      Donations
+                      <SortIcon field="DonationsKoha" />
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {charities.map((charity, index) => {
-                  const sectorIcon = charity.MainActivityId ? SECTOR_ICONS[charity.MainActivityId] : <Briefcase className="w-4 h-4" />;
-                  
-                  return (
-                    <tr 
-                      key={charity.CharityRegistrationNumber}
-                      onClick={() => handleRowClick(charity.CharityRegistrationNumber)}
-                      className="border-t border-border cursor-pointer hover:bg-muted/30 transition-colors animate-fade-in"
-                      style={{ animationDelay: `${index * 30}ms` }}
-                    >
-                      <td className="py-4 px-4">
-                        <div className="flex items-center gap-3">
-                          <div className="p-1.5 bg-accent rounded-lg text-accent-foreground">
-                            {sectorIcon}
-                          </div>
-                          <div>
-                            <p className="font-medium text-foreground line-clamp-1">{charity.Name}</p>
-                            <p className="text-xs text-muted-foreground">{charity.Location || "NZ"}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="py-4 px-4 text-right">
-                        <span className="font-bold text-foreground">
-                          {formatCurrency(charity.TotalGrossIncome)}
-                        </span>
-                      </td>
-                      <td className="py-4 px-4 text-right">
-                        <NetResult value={charity.NetSurplusDeficitForTheYear} />
-                      </td>
-                      <td className="py-4 px-4 text-right text-foreground">
-                        {formatCurrency(charity.TotalAssets)}
-                      </td>
-                      <td className="py-4 px-4 text-right text-foreground">
-                        {charity.NumberOfFulltimeEmployees || 0}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {charities.map((charity, index) => (
+                  <tr 
+                    key={charity.CharityRegistrationNumber}
+                    onClick={() => handleRowClick(charity.CharityRegistrationNumber)}
+                    className="border-t border-border cursor-pointer hover:bg-muted/30 transition-colors animate-fade-in"
+                    style={{ animationDelay: `${index * 30}ms` }}
+                  >
+                    <td className="py-4 px-4">
+                      <p className="font-medium text-foreground line-clamp-1">{charity.Name}</p>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
+                        <span className="text-muted-foreground text-sm">{charity.StreetAddressCity || "—"}</span>
+                      </div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <span className="text-sm text-primary">{charity.MainSectorName || "—"}</span>
+                    </td>
+                    <td className="py-4 px-4 text-right">
+                      <span className="font-bold text-foreground">
+                        {formatCurrency(charity.TotalGrossIncome)}
+                      </span>
+                    </td>
+                    <td className="py-4 px-4 text-right">
+                      <NetResult value={charity.NetSurplusDeficitForTheYear} />
+                    </td>
+                    <td className="py-4 px-4 text-right text-foreground">
+                      {formatCurrency(charity.TotalAssets)}
+                    </td>
+                    <td className="py-4 px-4 text-right text-foreground">
+                      {charity.NumberOfFulltimeEmployees || 0}
+                    </td>
+                    <td className="py-4 px-4 text-right text-foreground">
+                      {formatCurrency(charity.DonationsKoha)}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
