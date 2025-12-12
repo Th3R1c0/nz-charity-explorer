@@ -76,8 +76,9 @@ const formatCurrency = (value: number | null): string => {
   return `$${value.toLocaleString()}`;
 };
 
-const calculateGovtDependency = (govt: number | null, total: number | null): number => {
-  if (!total || total <= 0 || !govt) return 0;
+const calculateGovtDependency = (govt: number | null, total: number | null): number | null => {
+  if (total === null || total === undefined || total <= 0) return null;
+  if (govt === null || govt === undefined) return null;
   return Math.round((govt / total) * 100);
 };
 
@@ -169,17 +170,22 @@ export const SectorRankings = () => {
       : <ArrowUp className="w-3.5 h-3.5 text-primary" />;
   };
 
-  const GovtBar = ({ percentage }: { percentage: number }) => (
-    <div className="flex items-center gap-2">
-      <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
-        <div 
-          className="h-full bg-chart-govt rounded-full transition-all duration-500"
-          style={{ width: `${Math.min(percentage, 100)}%` }}
-        />
+  const GovtBar = ({ percentage }: { percentage: number | null }) => {
+    if (percentage === null) {
+      return <span className="text-muted-foreground text-sm">—</span>;
+    }
+    return (
+      <div className="flex items-center gap-2">
+        <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-chart-govt rounded-full transition-all duration-500"
+            style={{ width: `${Math.min(percentage, 100)}%` }}
+          />
+        </div>
+        <span className="text-xs text-muted-foreground">{percentage}%</span>
       </div>
-      <span className="text-xs text-muted-foreground">{percentage}%</span>
-    </div>
-  );
+    );
+  };
 
   const NetResult = ({ value }: { value: number | null }) => {
     if (value === null || value === undefined) return <span className="text-muted-foreground">—</span>;
@@ -233,10 +239,10 @@ export const SectorRankings = () => {
           </div>
           <div>
             <p className="text-xs text-muted-foreground">Govt Funded</p>
-            <p className="font-medium text-foreground">{govtPct}%</p>
+            <p className="font-medium text-foreground">{govtPct !== null ? `${govtPct}%` : "—"}</p>
           </div>
           <div>
-            <p className="text-xs text-muted-foreground">Net Result</p>
+            <p className="text-xs text-muted-foreground">Profit</p>
             <NetResult value={charity.NetSurplusDeficitForTheYear} />
           </div>
         </div>
@@ -346,7 +352,7 @@ export const SectorRankings = () => {
                     onClick={() => handleSort("NetSurplusDeficitForTheYear")}
                   >
                     <div className="flex items-center justify-end gap-1.5">
-                      Net Result
+                      Profit
                       <SortIcon field="NetSurplusDeficitForTheYear" />
                     </div>
                   </th>
