@@ -16,7 +16,7 @@ import { StressTestSlider } from "@/components/charity/StressTestSlider";
 import { MobileDetailedInfo } from "@/components/charity/MobileDetailedInfo";
 import { transformCharityData } from "@/data/transformCharityData";
 import { CharityData } from "@/data/charityData";
-import { BarChart3, Loader2 } from "lucide-react";
+import { BarChart3, Loader2, Frown } from "lucide-react";
 const Index = () => {
   const {
     charityId
@@ -72,9 +72,11 @@ const Index = () => {
   }
   if (error || !charityData) {
     return <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-destructive text-lg">{error || "Something went wrong"}</p>
-          <button onClick={() => navigate("/home")} className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-lg">
+        <div className="text-center px-4">
+          <Frown className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+          <p className="text-foreground text-lg font-medium mb-2">No data for this charity is publicly available</p>
+          <p className="text-muted-foreground text-sm mb-6">The information you're looking for may not be on the public register.</p>
+          <button onClick={() => navigate("/home")} className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
             Back to Search
           </button>
         </div>
