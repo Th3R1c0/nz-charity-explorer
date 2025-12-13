@@ -30,7 +30,7 @@ export const Header = ({ variant = "default" }: HeaderProps) => {
   const currentLanguage = languages.find(l => l.code === language);
 
   const headerClass = variant === "overlay"
-    ? "absolute top-0 z-50 w-full border-b border-border/40 bg-background/50 backdrop-blur-sm"
+    ? "fixed top-0 z-50 w-full border-b border-border/40 bg-background/50 backdrop-blur-md"
     : "sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md";
 
   return (
