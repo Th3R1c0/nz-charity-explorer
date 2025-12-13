@@ -40,12 +40,12 @@ const Index = () => {
       setError(null);
       try {
         const profileUrl = `http://www.odata.charities.govt.nz/vOrganisations?$filter=CharityRegistrationNumber eq '${reg}'&$format=json`;
-        const financialsUrl = `http://www.odata.charities.govt.nz/GrpOrgAllReturns?$filter=CharityRegistrationNumber eq '${reg}'&$select=Name,CharityRegistrationNumber,YearEnded,EndOfYearMonth,EndOfYearDayofMonth,TotalGrossIncome,TotalExpenditure,TotalAssets,TotalLiabilities,TotalEquity,NetSurplusDeficitForTheYear,GovtGrantsContracts,AllOtherGrantsAndSponsorship,DonationsKoha,ServiceTradingIncome,NewZealandDividends,AllOtherIncome,SalariesAndWages,CostOfServiceProvision,CostOfTradingOperations,Depreciation,AllOtherExpenditure,CashAndBankBalances,Investments,Buildings,AllOtherFixedAssets,PercentageSpentOverseas,NumberOfFulltimeEmployees,NumberOfParttimeEmployees,AvgAllPaidHoursPerWeek,AvgAllVolunteerHoursPerWeek,AvgNoVolunteersPerWeek&$orderby=YearEnded desc&$format=json`;
+        const financialsUrl = `http://www.odata.charities.govt.nz/GrpOrgAllReturns?$filter=CharityRegistrationNumber eq '${reg}'&$select=Name,CharityRegistrationNumber,YearEnded,EndOfYearMonth,EndOfYearDayofMonth,TotalGrossIncome,TotalExpenditure,TotalAssets,TotalLiabilities,TotalEquity,NetSurplusDeficitForTheYear,GovtGrantsContracts,AllOtherGrantsAndSponsorship,DonationsKoha,ServiceTradingIncome,NewZealandDividends,AllOtherIncome,SalariesAndWages,CostOfServiceProvision,CostOfTradingOperations,Depreciation,AllOtherExpenditure,CashAndBankBalances,Investments,Buildings,AllOtherFixedAssets,PercentageSpentOverseas,NumberOfFulltimeEmployees,NumberOfParttimeEmployees,AvgAllPaidHoursPerWeek,AvgAllVolunteerHoursPerWeek,AvgNoVolunteersPerWeek,TotalAssetsLessTotalLiabilities,SurplusDeficit,GrantsRevenueFromLocalOrCentralGovernment,InterestOfDividendsReceived,EmployeeRemunerationAndOtherRelatedExpenses,FundRaisingExpenses,ReceivablesFromExchangeTransactionsAndRecoverableFromNonExchange,Inventory,PropertyPlantAndEquipmment,ReportingCurrency,PlanToUseAccumulatedFundsInTheFuture&$orderby=YearEnded desc&$format=json`;
         const proxyBase = "https://corsproxy.io/?";
         const [profileRes, financialsRes] = await Promise.all([fetch(proxyBase + encodeURIComponent(profileUrl)), fetch(proxyBase + encodeURIComponent(financialsUrl))]);
         const profileData = await profileRes.json();
 
-        const USE_TEST_FINANCIALS = true;
+        const USE_TEST_FINANCIALS = false;
         const financialsData = USE_TEST_FINANCIALS ? TestFinancialCharityData : await financialsRes.json();
         if (!profileData.d || profileData.d.length === 0) {
           setError("Charity not found");
