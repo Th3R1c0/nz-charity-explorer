@@ -146,9 +146,12 @@ const Index = () => {
         <Officers data={charityData} />
       </div>
 
-      <footer className="pt-8 md:pt-12 pb-6 md:pb-8 text-center text-xs md:text-sm text-muted-foreground">
+      <footer className="pt-8 md:pt-12 pb-6 md:pb-8 text-center text-xs md:text-sm text-muted-foreground flex flex-col items-center gap-2">
         <p>Data sourced from the New Zealand Charities Register</p>
-        <p className="mt-1">Last updated: December 2024</p>
+        <p>Last updated: December 2024</p>
+        <a href="https://discord.gg/r4fwAJC4pu" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors underline decoration-dotted underline-offset-4">
+          Join our Discord
+        </a>
       </footer>
     </main>
   </div>;

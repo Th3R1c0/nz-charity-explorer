@@ -1,73 +1,33 @@
-# Welcome to your Lovable project
+# nzcharityexplorer
 
-## Project info
+**Making New Zealand Charity Data Accessible and Transparent**
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Welcome to **nzcharityexplorer**, a user-friendly tool designed to help you understand the financial health and operations of charities across New Zealand.
 
-## How can I edit this code?
+## What is this?
+nzcharityexplorer is a website that takes complex financial data from the official **New Zealand Charities Register** and turns it into easy-to-read charts, graphs, and summaries. 
 
-There are several ways of editing your application.
+Typically, finding out how a charity spends its money requires digging through long, complicated PDF reports. We believe that transparency should be easy. With this tool, you can instantly see where a charity's money comes from and where it goes.
 
-**Use Lovable**
+## Why use it?
+- **For Donors:** Make sure your donation is going to a healthy, well-managed organization that aligns with your values.
+- **For Researchers & Journalists:** Quickly gather stats and facts about the charitable sector.
+- **For Charities:** See how your organization compares to others and present your data in a clear way to your supporters.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Key Features
+- **Search:** Find any registered charity in New Zealand by name or registration number.
+- **Financial Health Check:** unexpected deficits or massive surpluses are highlighted instantly.
+- **Income & Spending Breakdown:** See exactly how much comes from government grants, donations, or trading, and how much is spent on salaries vs. actual services.
+- **Executive Team:** View who is running the charity and their roles.
+- **Mobile Friendly:** Check charity stats on the go, right from your phone.
 
-Changes made via Lovable will be committed automatically to this repo.
+## How it Works
+We connect directly to the public database provided by the **Charities Services (Department of Internal Affairs)**. We do not alter the data; we simply present it in a format that makes sense to everyone, not just accountants.
 
-**Use your preferred IDE**
+## Get Involved
+We are an open community project! If you have ideas, feedback, or want to contribute:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- **Join our Discord**: [https://discord.gg/r4fwAJC4pu](https://discord.gg/r4fwAJC4pu)
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+---
+*Note: This project is not affiliated with the NZ Charities Services. All data is sourced from public records.*
