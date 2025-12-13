@@ -19,14 +19,22 @@ const languages = [
   { code: "ja" as Language, label: "日本語", enabled: false },
 ];
 
-export const Header = () => {
+interface HeaderProps {
+  variant?: "overlay" | "default";
+}
+
+export const Header = ({ variant = "default" }: HeaderProps) => {
   const { theme, setTheme } = useTheme();
   const [language, setLanguage] = useState<Language>("en");
 
   const currentLanguage = languages.find(l => l.code === language);
 
+  const headerClass = variant === "overlay"
+    ? "absolute top-0 z-50 w-full border-b border-border/40 bg-background/50 backdrop-blur-sm"
+    : "sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md";
+
   return (
-    <header className="absolute top-0 z-50 w-full border-b border-border/40 bg-background/50 backdrop-blur-sm">
+    <header className={headerClass}>
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
           <img src={logo} alt="nzcharityexplorer Logo" className="w-8 h-8 rounded-full" />
