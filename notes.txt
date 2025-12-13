@@ -16,3 +16,17 @@ my ultimate dream job is software engineer, but im targeting local dev internshi
 
 
 
+kia ora, im a kiwi comp sci major at auckland uni and i thought ill share a website i built to show the financial records of every registered charity in new zealand. 
+you can view detailed information of over 28,000 charities and thier assets, expenditure, donations, goverment grants, officers, and more.
+This data is publically avalible on the charities register but it only displays a small amount of information, and it is not easy to navigate visually on mobile. 
+i made sure to include useful financial metrics and visualizations for financial transpareny and ease of navigation on my website.
+nzcharityexplorer.com
+im a comp sci major at auckland university and i built this as one of my personal technical projects but i realised maybe people would like to use it so i bought a domain and made it public.
+my iwi is ngati whatua, so it was pretty interesting browsing their financial records, seeing how rich they are lol.
+its  still a work in progress, so I’d love to hear your feedback or any feature requests.
+
+
+for nerds: 
+techstack is react, typescript, tailwindcss, shadcn for frontend library , vercel for hosting, and some python scripts to sort data i hosted on google cloud run, cloudfare for hosting.
+this is prob my least technical project but i had fun building it. 
+my ultimate dream job is software engineer, but im targeting local dev internships atm so i built this as one of my projects :) any frontend feedback is welcomed
