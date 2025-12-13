@@ -1,4 +1,4 @@
-import { Check, ExternalLink, Mail, Copy, Calendar, Navigation } from "lucide-react";
+import { Check, ExternalLink, Calendar, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
@@ -67,32 +67,11 @@ export const HeroHeader = ({ data }: HeroHeaderProps) => {
                   <ExternalLink className="w-3 h-3 opacity-50" />
                 </a>
               )}
-              {data.charityEmailAddress && (
-                <a
-                  href={`mailto:${data.charityEmailAddress}`}
-                  className="flex items-center gap-1.5 hover:text-primary transition-colors bg-muted/50 px-3 py-1.5 rounded-lg border border-border/50 hover:border-primary/50"
-                >
-                  <Mail className="w-4 h-4" />
-                  <span className="truncate max-w-[200px]">{data.charityEmailAddress}</span>
-                </a>
-              )}
             </div>
           </div>
+
           {/* Actions Section */}
           <div className="flex flex-wrap items-center gap-2 md:gap-3 lg:self-start pt-2">
-            <Button variant="outline" size="sm" className="hidden md:inline-flex md:h-10 md:px-4 md:py-2 gap-2 shadow-sm order-2 md:order-1" asChild>
-              <a href={`mailto:${data.charityEmailAddress}`}>
-                <Mail className="h-4 w-4" />
-                Contact
-              </a>
-            </Button>
-            {/* Mobile Contact Button (Icon Only) */}
-            <Button variant="outline" size="icon" className="md:hidden h-9 w-9 shrink-0 order-2" asChild>
-              <a href={`mailto:${data.charityEmailAddress}`}>
-                <Mail className="h-4 w-4" />
-              </a>
-            </Button>
-
             <Button size="sm" className="h-9 px-4 md:h-10 md:px-8 gap-2 shadow-lg hover:shadow-xl transition-all order-1 md:order-2 flex-1 md:flex-none" asChild>
               <a href={`https://${data.websiteURL}`} target="_blank" rel="noopener noreferrer">
                 Visit Website

@@ -110,27 +110,7 @@ const Index = () => {
         <MobileDetailedInfo data={charityData} />
       </div>
 
-      {/* Divider with Label */}
-      <div className="md:relative md:py-0">
-        <div className="hidden md:block absolute inset-0 flex items-center">
-          <div className="w-full border-t border-border" />
-        </div>
-        <div className="hidden md:flex relative justify-center">
-          <div className="bg-background px-6 py-2 flex items-center gap-2">
-            <BarChart3 className="h-5 w-5 text-primary" />
-            <span className="text-lg font-semibold text-foreground">Financial & Operational Performance</span>
-          </div>
-        </div>
-        {/* Mobile Header for Financials */}
-        <div className="flex md:hidden items-center justify-center gap-3 py-4 border-b border-border/50">
-          <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-            <BarChart3 className="h-5 w-5 text-primary" />
-          </div>
-          <div className="text-center">
-            <h2 className="text-lg font-semibold text-foreground">Performance</h2>
-          </div>
-        </div>
-      </div>
+
 
       {/* NEW: Financial Health Section */}
       <div className="mobile-section md:border-b-0">
