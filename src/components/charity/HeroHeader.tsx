@@ -1,4 +1,4 @@
-import { Check, ExternalLink, Mail, Copy } from "lucide-react";
+import { Check, ExternalLink, Mail, Copy, Calendar, Navigation } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
@@ -21,62 +21,85 @@ export const HeroHeader = ({ data }: HeroHeaderProps) => {
   };
 
   return (
-    <section className="relative overflow-hidden glass-card md:rounded-2xl p-0 md:p-8 animate-fade-in">
-      {/* Background Pattern - hidden on mobile */}
-      <div className="hidden md:block absolute inset-0 opacity-5 bg-gradient-to-br from-primary via-transparent to-primary/50" />
-      
-      <div className="relative flex flex-col gap-4 md:gap-6 lg:flex-row lg:items-center lg:justify-between">
-        {/* Left: Identity */}
-        <div className="space-y-2 min-w-0">
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground tracking-tight leading-tight">
-            {data.name}
-          </h1>
-          
-          <div className="flex flex-wrap items-center gap-2 md:gap-3">
-            {/* Status Badge */}
-            <Badge 
-              variant={data.registrationStatus === "Registered" ? "default" : "destructive"}
-              className="gap-1 md:gap-1.5 px-2 md:px-3 py-0.5 md:py-1 text-xs md:text-sm"
-            >
-              <Check className="h-3 w-3 md:h-3.5 md:w-3.5" />
-              {data.registrationStatus}
-            </Badge>
-            
-            {/* Registration Number */}
-            <button
-              onClick={copyRegistrationNumber}
-              className="flex items-center gap-1 md:gap-1.5 text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors group"
-            >
-              <span className="font-mono">{data.charityRegistrationNumber}</span>
-              <Copy className="h-3 w-3 md:h-3.5 md:w-3.5 opacity-50 md:opacity-0 group-hover:opacity-100 transition-opacity" />
-            </button>
-          </div>
-        </div>
+    <section className="glass-card rounded-2xl md:rounded-3xl p-4 md:p-10 animate-fade-in relative overflow-hidden">
+      {/* Background Decoration */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
-        {/* Right: Action Buttons */}
-        <div className="flex items-center gap-2 md:gap-3">
-          <Button
-            variant="outline"
-            size="default"
-            className="gap-1.5 md:gap-2 flex-1 md:flex-none text-sm"
-            asChild
-          >
-            <a href={`mailto:${data.charityEmailAddress}`}>
-              <Mail className="h-4 w-4" />
-              Contact
-            </a>
-          </Button>
-          
-          <Button
-            size="default"
-            className="gap-1.5 md:gap-2 flex-1 md:flex-none text-sm"
-            asChild
-          >
-            <a href={`https://${data.websiteURL}`} target="_blank" rel="noopener noreferrer">
-              Visit Website
-              <ExternalLink className="h-4 w-4" />
-            </a>
-          </Button>
+      <div className="relative">
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 lg:gap-6">
+          {/* Identity Section */}
+          <div className="flex-1 space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <span className={`px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase ${data.registrationStatus === 'Registered'
+                    ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20'
+                    : 'bg-red-500/10 text-red-500 border border-red-500/20'
+                  }`}>
+                  {data.registrationStatus || "Unknown Status"}
+                </span>
+                <span className="text-xs text-muted-foreground font-mono">
+                  {data.charityRegistrationNumber || "No Reg #"}
+                </span>
+              </div>
+
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70 tracking-tight leading-tight">
+                {data.name || "Charity Name Not Available"}
+              </h1>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+              {data.dateRegistered ? (
+                <div className="flex items-center gap-1.5 bg-muted/50 px-3 py-1.5 rounded-lg border border-border/50">
+                  <Calendar className="w-4 h-4" />
+                  <span>Registered {data.dateRegistered}</span>
+                </div>
+              ) : null}
+
+              {data.websiteURL && (
+                <a
+                  href={data.websiteURL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 hover:text-primary transition-colors bg-muted/50 px-3 py-1.5 rounded-lg border border-border/50 hover:border-primary/50"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  <span className="truncate max-w-[200px]">{data.websiteURL.replace(/^https?:\/\//, '')}</span>
+                  <ExternalLink className="w-3 h-3 opacity-50" />
+                </a>
+              )}
+              {data.charityEmailAddress && (
+                <a
+                  href={`mailto:${data.charityEmailAddress}`}
+                  className="flex items-center gap-1.5 hover:text-primary transition-colors bg-muted/50 px-3 py-1.5 rounded-lg border border-border/50 hover:border-primary/50"
+                >
+                  <Mail className="w-4 h-4" />
+                  <span className="truncate max-w-[200px]">{data.charityEmailAddress}</span>
+                </a>
+              )}
+            </div>
+          </div>
+          {/* Actions Section */}
+          <div className="flex flex-wrap items-center gap-2 md:gap-3 lg:self-start pt-2">
+            <Button variant="outline" size="sm" className="hidden md:inline-flex md:h-10 md:px-4 md:py-2 gap-2 shadow-sm order-2 md:order-1" asChild>
+              <a href={`mailto:${data.charityEmailAddress}`}>
+                <Mail className="h-4 w-4" />
+                Contact
+              </a>
+            </Button>
+            {/* Mobile Contact Button (Icon Only) */}
+            <Button variant="outline" size="icon" className="md:hidden h-9 w-9 shrink-0 order-2" asChild>
+              <a href={`mailto:${data.charityEmailAddress}`}>
+                <Mail className="h-4 w-4" />
+              </a>
+            </Button>
+
+            <Button size="sm" className="h-9 px-4 md:h-10 md:px-8 gap-2 shadow-lg hover:shadow-xl transition-all order-1 md:order-2 flex-1 md:flex-none" asChild>
+              <a href={`https://${data.websiteURL}`} target="_blank" rel="noopener noreferrer">
+                Visit Website
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            </Button>
+          </div>
         </div>
       </div>
     </section>

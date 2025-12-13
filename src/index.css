@@ -122,6 +122,7 @@
 }
 
 @layer utilities {
+
   /* Mobile-first: no card styling, Desktop: glass card */
   .glass-card {
     @apply bg-transparent;

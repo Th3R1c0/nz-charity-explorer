@@ -14,10 +14,10 @@ const getLatestFinancialRecord = (records: FinancialRecord[]): FinancialRecord =
 
 // Sort financial records by year and get last 5 years
 const getFinancialHistory = (records: FinancialRecord[]) => {
-  const sorted = [...records].sort((a, b) => 
+  const sorted = [...records].sort((a, b) =>
     new Date(a.YearEnded).getTime() - new Date(b.YearEnded).getTime()
   );
-  
+
   return sorted.slice(-5).map(record => ({
     year: new Date(record.YearEnded).getFullYear(),
     income: record.TotalGrossIncome || 0,
@@ -65,7 +65,7 @@ export const transformCharityData = (
   const tradingServices = latestFinancial.ServiceTradingIncome ?? 0;
   const investments = (latestFinancial.NewZealandDividends ?? 0) + (latestFinancial.AllOtherIncome ?? 0);
   const otherGrants = latestFinancial.AllOtherGrantsAndSponsorship ?? 0;
-  
+
   // Calculate total from known sources
   const knownRevenue = govGrants + donations + tradingServices + investments + otherGrants;
   const totalIncome = latestFinancial.TotalGrossIncome ?? 0;
@@ -77,17 +77,17 @@ export const transformCharityData = (
   const depreciation = latestFinancial.Depreciation ?? 0;
   const otherExpenses = latestFinancial.AllOtherExpenditure ?? 0;
   const costOfTrading = latestFinancial.CostOfTradingOperations ?? 0;
-  
+
   // Calculate totals for expense breakdown
   const totalExpenses = latestFinancial.TotalExpenditure ?? 0;
   const knownExpenses = salaries + costOfService + depreciation + otherExpenses + costOfTrading;
-  
+
   // If we have detailed breakdown, use it; otherwise estimate from total
   const hasDetailedExpenses = knownExpenses > 0;
-  const programCosts = hasDetailedExpenses 
+  const programCosts = hasDetailedExpenses
     ? costOfService + costOfTrading + (salaries * 0.7)
     : totalExpenses * 0.7;
-  const adminCosts = hasDetailedExpenses 
+  const adminCosts = hasDetailedExpenses
     ? (salaries * 0.3) + (otherExpenses * 0.3)
     : totalExpenses * 0.2;
   const fundraisingCosts = depreciation;
@@ -135,32 +135,43 @@ export const transformCharityData = (
     financialHistory,
 
     // Current Year Financial Details
-    currentFinancials: {
-      totalIncome: latestFinancial.TotalGrossIncome || 0,
-      totalExpenses: latestFinancial.TotalExpenditure || 0,
-      netSurplus: latestFinancial.NetSurplusDeficitForTheYear || 
-        ((latestFinancial.TotalGrossIncome || 0) - (latestFinancial.TotalExpenditure || 0)),
-      totalAssets: latestFinancial.TotalAssets || 0,
-      totalLiabilities: latestFinancial.TotalLiabilities || 0,
-      totalEquity: latestFinancial.TotalEquity || 0,
-      cashOnHand: latestFinancial.CashAndBankBalances || 0,
-      employees: (latestFinancial.NumberOfFulltimeEmployees || 0) + (latestFinancial.NumberOfParttimeEmployees || 0),
+    // Financial Health & Sustainability
+    financialHealth: {
+      totalAssets: latestFinancial.TotalAssets ?? 0,
+      netEquity: latestFinancial.TotalEquity ?? 0,
+      operatingSurplus: latestFinancial.SurplusDeficit ?? (latestFinancial.NetSurplusDeficitForTheYear ?? 0),
+      totalLiabilities: latestFinancial.TotalLiabilities ?? 0,
+      liquidity: latestFinancial.CashAndBankBalances ?? 0,
+      debtToAssetRatio: (latestFinancial.TotalLiabilities && latestFinancial.TotalAssets)
+        ? (latestFinancial.TotalLiabilities / latestFinancial.TotalAssets)
+        : 0,
+      investmentValue: latestFinancial.Investments ?? 0,
     },
 
-    // Revenue Breakdown
-    revenueBreakdown: {
-      governmentGrants: govGrants + otherGrants,
-      donations: donations,
-      tradingServices: tradingServices,
-      investments: investments + otherIncome,
+    // Income & Revenue Sources
+    incomeSources: {
+      totalGrossIncome: latestFinancial.TotalGrossIncome ?? 0,
+      serviceIncome: latestFinancial.ServiceTradingIncome ?? 0,
+      govtGrants: (latestFinancial.GrantsRevenueFromLocalOrCentralGovernment ?? 0) + (latestFinancial.GovtGrantsContracts ?? 0),
+      donationIncome: latestFinancial.DonationsKoha ?? 0,
+      investmentIncome: (latestFinancial.NewZealandDividends ?? 0) + (latestFinancial.InterestOfDividendsReceived ?? 0),
     },
 
-    // Expense Breakdown (estimated)
-    expenseBreakdown: {
-      programCosts: Math.round(programCosts),
-      adminCosts: Math.round(adminCosts),
-      fundraisingCosts: Math.round(fundraisingCosts),
-      otherCosts: Math.round(remainingCosts),
+    // Operational Efficiency & Spending
+    operationalEfficiency: {
+      totalExpenditure: latestFinancial.TotalExpenditure ?? 0,
+      employeeCosts: latestFinancial.EmployeeRemunerationAndOtherRelatedExpenses ?? (latestFinancial.SalariesAndWages ?? 0),
+      fundraisingExpenses: latestFinancial.FundRaisingExpenses ?? 0,
+      assetDepreciation: latestFinancial.Depreciation ?? 0,
+    },
+
+    // Staffing & People
+    people: {
+      totalStaff: (latestFinancial.NumberOfFulltimeEmployees ?? 0) + (latestFinancial.NumberOfParttimeEmployees ?? 0),
+      fullTimeCount: latestFinancial.NumberOfFulltimeEmployees ?? 0,
+      partTimeCount: latestFinancial.NumberOfParttimeEmployees ?? 0,
+      volunteerCount: latestFinancial.AvgNoVolunteersPerWeek ?? 0,
+      volunteerHours: latestFinancial.AvgAllVolunteerHoursPerWeek ?? 0,
     },
   };
 };

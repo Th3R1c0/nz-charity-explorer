@@ -18,71 +18,77 @@ const sectorIcons: Record<string, React.ReactNode> = {
 
 export const MissionIdentity = ({ data }: MissionIdentityProps) => {
   return (
-    <section className="glass-card md:rounded-2xl p-0 md:p-8 space-y-5 md:space-y-8 animate-fade-in h-full flex flex-col" style={{ animationDelay: "0.1s" }}>
+    <section className="glass-card rounded-2xl md:rounded-3xl p-4 md:p-10 animate-fade-in h-full flex flex-col relative overflow-hidden">
+      {/* Background Decoration */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 md:hidden" />
+
       {/* Header */}
-      <div className="flex items-center gap-3">
-        <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg md:rounded-xl bg-primary/10 flex items-center justify-center">
-          {sectorIcons[data.mainSectorName] || <Heart className="h-5 w-5 md:h-6 md:w-6 text-primary" />}
+      <div className="flex items-center gap-4 mb-6 md:mb-8">
+        <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-sm border border-primary/10">
+          {sectorIcons[data.mainSectorName] || <Heart className="h-6 w-6" />}
         </div>
         <div>
-          <h2 className="text-lg md:text-xl font-semibold text-foreground">Mission & Purpose</h2>
-          <Badge variant="secondary" className="hidden md:inline-flex mt-1 text-xs">{data.mainSectorName}</Badge>
+          <h2 className="text-xl md:text-2xl font-bold text-foreground">Mission & Purpose</h2>
+          <Badge variant="secondary" className="hidden md:inline-flex mt-1 text-xs font-normal bg-background/50">{data.mainSectorName}</Badge>
         </div>
       </div>
 
       {/* Mission Statement */}
-      <blockquote className="relative pl-4 md:pl-6 border-l-4 border-primary/30 text-base md:text-lg text-foreground/90 italic leading-relaxed">
-        {data.charitablePurpose ? `"${data.charitablePurpose}"` : <span className="text-muted-foreground not-italic">No data available</span>}
+      <blockquote className="relative pl-6 border-l-4 border-primary/20 text-lg text-foreground/90 italic leading-relaxed mb-8">
+        <span className="absolute -top-3 -left-3 text-4xl text-primary/10 font-serif">“</span>
+        {data.charitablePurpose || "No data available"}
       </blockquote>
 
       {/* Sectors - Desktop only */}
-      <div className="hidden md:block space-y-3">
-        <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Sectors</h3>
+      <div className="hidden md:block space-y-4 mb-8">
+        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Sectors</h3>
         <div className="flex flex-wrap gap-2">
           {data.sectors && data.sectors.length > 0 ? (
             data.sectors.map((sector) => (
-              <Badge key={sector} variant="outline" className="px-4 py-2 text-sm">
+              <Badge key={sector} variant="secondary" className="px-3 py-1.5 text-sm font-normal bg-background border border-border/50">
                 {sector}
               </Badge>
             ))
           ) : (
-            <span className="text-sm text-muted-foreground">No data available</span>
+            <span className="text-sm text-muted-foreground italic">No data available</span>
           )}
         </div>
       </div>
 
       {/* Beneficiaries - Desktop only */}
-      <div className="hidden md:block space-y-2 md:space-y-3">
-        <h3 className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider text-center md:text-left">Who We Serve</h3>
-        <div className="flex flex-wrap justify-center md:justify-start gap-3 md:gap-4">
+      <div className="hidden md:block space-y-4 mb-8">
+        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider text-center md:text-left">Who We Serve</h3>
+        <div className="flex flex-wrap justify-center md:justify-start gap-4">
           {data.beneficiaries && data.beneficiaries.length > 0 ? (
             data.beneficiaries.map((beneficiary) => (
-              <div key={beneficiary} className="flex flex-col items-center gap-1.5 md:gap-2">
-                <div className="h-11 w-11 md:h-14 md:w-14 rounded-full bg-accent flex items-center justify-center text-accent-foreground">
-                  {beneficiaryIcons[beneficiary] || <Users className="h-5 w-5 md:h-6 md:w-6" />}
+              <div key={beneficiary} className="flex flex-col items-center gap-2">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                  {beneficiaryIcons[beneficiary] || <Users className="h-5 w-5" />}
                 </div>
-                <span className="text-xs md:text-sm font-medium text-foreground">{beneficiary}</span>
+                <span className="text-sm font-medium text-foreground">{beneficiary}</span>
               </div>
             ))
           ) : (
-            <span className="text-sm text-muted-foreground">No data available</span>
+            <span className="text-sm text-muted-foreground italic">No data available</span>
           )}
         </div>
       </div>
 
       {/* Activities - Desktop only */}
-      <div className="hidden md:block space-y-2 md:space-y-3">
-        <h3 className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider text-center md:text-left">Activities</h3>
-        <div className="flex flex-col items-center md:items-start gap-1.5 md:gap-2">
+      <div className="hidden md:block space-y-4">
+        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider text-center md:text-left">Activities</h3>
+        <div className="flex flex-col items-center md:items-start gap-3">
           {data.activities && data.activities.length > 0 ? (
             data.activities.map((activity) => (
-              <div key={activity} className="flex items-center gap-2 text-sm md:text-base text-foreground">
-                <Check className="h-4 w-4 text-success flex-shrink-0" />
+              <div key={activity} className="flex items-center gap-3 text-base text-foreground">
+                <div className="h-5 w-5 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0">
+                  <Check className="h-3 w-3 text-emerald-600" />
+                </div>
                 <span>{activity}</span>
               </div>
             ))
           ) : (
-            <span className="text-sm text-muted-foreground">No data available</span>
+            <span className="text-sm text-muted-foreground italic">No activities listed</span>
           )}
         </div>
       </div>

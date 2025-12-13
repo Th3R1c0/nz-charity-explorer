@@ -1,12 +1,6 @@
-import { Copy, ExternalLink, Info, ChevronDown } from "lucide-react";
+import { Copy, ExternalLink, Info, Scale, Building2, Wallet } from "lucide-react";
 import { CharityData } from "@/data/charityData";
 import { toast } from "@/hooks/use-toast";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import {
   Tooltip,
   TooltipContent,
@@ -24,7 +18,11 @@ const groupTypeDescriptions: Record<number, string> = {
   4: "Small charity (Tier 4) - Minimal reporting requirements",
 };
 
+import { useState } from "react";
+
 export const LegalStructure = ({ data }: LegalStructureProps) => {
+  const [showAllSources, setShowAllSources] = useState(false);
+
   const copyNZBN = () => {
     navigator.clipboard.writeText(data.nzbnNumber);
     toast({
@@ -34,88 +32,119 @@ export const LegalStructure = ({ data }: LegalStructureProps) => {
   };
 
   return (
-    <section 
-      className="glass-card rounded-2xl overflow-hidden animate-fade-in"
-      style={{ animationDelay: "0.4s" }}
-    >
-      <Accordion type="single" collapsible>
-        <AccordionItem value="legal" className="border-none">
-          <AccordionTrigger className="px-8 py-6 hover:no-underline hover:bg-muted/50 transition-colors">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-muted flex items-center justify-center">
-                <Info className="h-5 w-5 text-muted-foreground" />
+    <section className="glass-card rounded-2xl p-6 md:p-8 animate-fade-in space-y-8">
+      <div className="flex items-center gap-3">
+        <div className="p-3 bg-slate-500/10 rounded-xl text-slate-500">
+          <Scale className="w-6 h-6" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold text-foreground">Legal & Structure</h2>
+          <p className="text-muted-foreground text-sm">Registration details and entity type</p>
+        </div>
+      </div>
+
+      <div className="space-y-6">
+        {/* Main Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* NZBN Card */}
+          <div className="p-4 rounded-xl bg-card border border-border/50 space-y-3">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="p-2 bg-muted rounded-lg">
+                <Building2 className="w-4 h-4 text-muted-foreground" />
               </div>
-              <div className="text-left">
-                <h2 className="text-lg font-semibold text-foreground">Legal & Structure</h2>
-                <p className="text-sm text-muted-foreground">Registration details and fine print</p>
+              <span className="text-sm font-medium text-muted-foreground">NZBN</span>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-lg md:text-xl font-mono font-bold tracking-tight text-foreground">
+                {data.nzbnNumber}
+              </span>
+              <div className="flex gap-2">
+                <button
+                  onClick={copyNZBN}
+                  className="h-8 w-8 rounded-lg hover:bg-muted flex items-center justify-center transition-colors text-muted-foreground hover:text-foreground"
+                  title="Copy NZBN"
+                >
+                  <Copy className="h-4 w-4" />
+                </button>
+                <a
+                  href={`https://www.nzbn.govt.nz/mynzbn/search/${data.nzbnNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="h-8 w-8 rounded-lg hover:bg-muted flex items-center justify-center transition-colors text-muted-foreground hover:text-foreground"
+                  title="View on NZBN Register"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                </a>
               </div>
             </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            <div className="px-8 pb-8 space-y-6">
-              {/* NZBN */}
-              <div className="flex items-center justify-between p-4 bg-muted/50 rounded-xl">
-                <div>
-                  <p className="text-sm text-muted-foreground">NZBN (New Zealand Business Number)</p>
-                  <p className="font-mono text-foreground">{data.nzbnNumber}</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={copyNZBN}
-                    className="h-9 w-9 rounded-lg hover:bg-muted flex items-center justify-center transition-colors"
-                  >
-                    <Copy className="h-4 w-4 text-muted-foreground" />
-                  </button>
-                  <a
-                    href={`https://www.nzbn.govt.nz/mynzbn/search/${data.nzbnNumber}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="h-9 w-9 rounded-lg hover:bg-muted flex items-center justify-center transition-colors"
-                  >
-                    <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                  </a>
-                </div>
-              </div>
+          </div>
 
-              {/* Structure & Group Type */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-4 bg-muted/50 rounded-xl">
-                  <p className="text-sm text-muted-foreground">Legal Structure</p>
-                  <p className="text-foreground font-medium">{data.legalStructure}</p>
+          {/* Entity Type Card */}
+          <div className="p-4 rounded-xl bg-card border border-border/50 space-y-3">
+            <div className="flex items-center justify-between mb-1">
+              <div className="flex items-center gap-2">
+                <div className="p-2 bg-muted rounded-lg">
+                  <Info className="w-4 h-4 text-muted-foreground" />
                 </div>
-
-                <div className="p-4 bg-muted/50 rounded-xl">
-                  <div className="flex items-center gap-2">
-                    <p className="text-sm text-muted-foreground">Group Type</p>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Info className="h-3.5 w-3.5 text-muted-foreground" />
-                      </TooltipTrigger>
-                      <TooltipContent className="max-w-xs">
-                        <p>{groupTypeDescriptions[data.groupType]}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </div>
-                  <p className="text-foreground font-medium">Tier {data.groupType}</p>
-                </div>
+                <span className="text-sm font-medium text-muted-foreground">Entity Type</span>
               </div>
-
-              {/* Sources of Funds */}
-              <div>
-                <p className="text-sm text-muted-foreground mb-3">Sources of Funds</p>
-                <ul className="space-y-2">
-                  {data.sourcesOfFunds.map((source) => (
-                    <li key={source} className="flex items-center gap-2 text-foreground">
-                      <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                      {source}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <Tooltip>
+                <TooltipTrigger>
+                  <span className="text-xs bg-muted px-2 py-1 rounded-full text-muted-foreground hover:text-foreground cursor-help">
+                    What is Tier {data.groupType}?
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>{groupTypeDescriptions[data.groupType]}</p>
+                </TooltipContent>
+              </Tooltip>
             </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+
+            <div>
+              <p className="text-lg font-bold text-foreground">{data.legalStructure}</p>
+              <p className="text-sm text-muted-foreground">Tier {data.groupType} Reporting Entity</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Sources of Funds */}
+        <div className="p-5 rounded-xl bg-muted/30 border border-border/50">
+          <div className="flex items-center gap-2 mb-4">
+            <Wallet className="w-4 h-4 text-muted-foreground" />
+            <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Registered Funding Sources</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {data.sourcesOfFunds.slice(0, showAllSources ? undefined : 6).map((source) => (
+              <span
+                key={source}
+                className="inline-flex items-center px-3 py-1.5 rounded-lg bg-background border border-border text-sm text-foreground shadow-sm"
+              >
+                {source}
+              </span>
+            ))}
+            {!showAllSources && data.sourcesOfFunds.length > 6 && (
+              <button
+                onClick={() => setShowAllSources(true)}
+                className="inline-flex items-center px-3 py-1.5 rounded-lg bg-primary/10 border border-transparent text-sm font-medium text-primary hover:bg-primary/20 transition-colors"
+              >
+                +{data.sourcesOfFunds.length - 6} more
+              </button>
+            )}
+            {showAllSources && data.sourcesOfFunds.length > 6 && (
+              <button
+                onClick={() => setShowAllSources(false)}
+                className="inline-flex items-center px-3 py-1.5 rounded-lg bg-primary/10 border border-transparent text-sm font-medium text-primary hover:bg-primary/20 transition-colors"
+              >
+                Show less
+              </button>
+            )}
+            {data.sourcesOfFunds.length === 0 && (
+              <span className="text-sm text-muted-foreground italic">No specific funding sources listed</span>
+            )}
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

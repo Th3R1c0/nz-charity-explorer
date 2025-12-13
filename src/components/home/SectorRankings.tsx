@@ -1,9 +1,9 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { 
-  ArrowUpDown, 
-  ArrowDown, 
-  Filter, 
+import {
+  ArrowUpDown,
+  ArrowDown,
+  Filter,
   MapPin,
   ChevronDown
 } from "lucide-react";
@@ -76,8 +76,9 @@ export const SectorRankings = () => {
     setSortField(field);
   };
 
-  const handleRowClick = (cc: string) => {
-    navigate(`/charity/${cc}`);
+  const handleRowClick = (charity: CharityData) => {
+    const slug = `${charity.Name.trim().replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '')}-${charity.CharityRegistrationNumber}`;
+    navigate(`/charity/${slug}`);
   };
 
   const SortIcon = ({ field }: { field: SortField }) => {
@@ -98,8 +99,8 @@ export const SectorRankings = () => {
   // Mobile card component
   const MobileCard = ({ charity, index }: { charity: CharityData; index: number }) => {
     return (
-      <div 
-        onClick={() => handleRowClick(charity.CharityRegistrationNumber)}
+      <div
+        onClick={() => handleRowClick(charity)}
         className="bg-card border border-border rounded-xl p-4 cursor-pointer hover:border-primary/30 hover:shadow-md transition-all duration-200 animate-fade-in"
         style={{ animationDelay: `${index * 50}ms` }}
       >
@@ -121,7 +122,7 @@ export const SectorRankings = () => {
             <p className="text-xs text-muted-foreground">Revenue</p>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-4 gap-2 text-sm">
           <div>
             <p className="text-xs text-muted-foreground">Profit</p>
@@ -165,7 +166,7 @@ export const SectorRankings = () => {
               Top charities ranked by financial scale and impact
             </p>
           </div>
-          
+
           {/* Desktop filters */}
           <div className="hidden md:flex items-center gap-3">
             <Button variant="outline" size="sm" className="gap-2" disabled>
@@ -187,7 +188,7 @@ export const SectorRankings = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="bg-popover">
                 {sortOptions.map(option => (
-                  <DropdownMenuItem 
+                  <DropdownMenuItem
                     key={option.field}
                     onClick={() => handleSort(option.field)}
                     className={sortField === option.field ? "bg-accent" : ""}
@@ -197,7 +198,7 @@ export const SectorRankings = () => {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            
+
             <Button variant="outline" size="sm" className="gap-2" disabled>
               <Filter className="w-4 h-4" />
               Filter
@@ -220,7 +221,7 @@ export const SectorRankings = () => {
                   <th className="text-left py-4 px-4 font-semibold text-foreground text-sm">
                     Sector
                   </th>
-                  <th 
+                  <th
                     className="text-right py-4 px-4 font-semibold text-foreground text-sm cursor-pointer hover:bg-muted/80 transition-colors"
                     onClick={() => handleSort("TotalGrossIncome")}
                   >
@@ -229,7 +230,7 @@ export const SectorRankings = () => {
                       <SortIcon field="TotalGrossIncome" />
                     </div>
                   </th>
-                  <th 
+                  <th
                     className="text-right py-4 px-4 font-semibold text-foreground text-sm cursor-pointer hover:bg-muted/80 transition-colors"
                     onClick={() => handleSort("NetSurplusDeficitForTheYear")}
                   >
@@ -238,7 +239,7 @@ export const SectorRankings = () => {
                       <SortIcon field="NetSurplusDeficitForTheYear" />
                     </div>
                   </th>
-                  <th 
+                  <th
                     className="text-right py-4 px-4 font-semibold text-foreground text-sm cursor-pointer hover:bg-muted/80 transition-colors"
                     onClick={() => handleSort("TotalAssets")}
                   >
@@ -247,7 +248,7 @@ export const SectorRankings = () => {
                       <SortIcon field="TotalAssets" />
                     </div>
                   </th>
-                  <th 
+                  <th
                     className="text-right py-4 px-4 font-semibold text-foreground text-sm cursor-pointer hover:bg-muted/80 transition-colors"
                     onClick={() => handleSort("NumberOfFulltimeEmployees")}
                   >
@@ -256,7 +257,7 @@ export const SectorRankings = () => {
                       <SortIcon field="NumberOfFulltimeEmployees" />
                     </div>
                   </th>
-                  <th 
+                  <th
                     className="text-right py-4 px-4 font-semibold text-foreground text-sm cursor-pointer hover:bg-muted/80 transition-colors"
                     onClick={() => handleSort("DonationsKoha")}
                   >
@@ -269,9 +270,9 @@ export const SectorRankings = () => {
               </thead>
               <tbody>
                 {charities.map((charity, index) => (
-                  <tr 
+                  <tr
                     key={charity.CharityRegistrationNumber}
-                    onClick={() => handleRowClick(charity.CharityRegistrationNumber)}
+                    onClick={() => handleRowClick(charity)}
                     className="border-t border-border cursor-pointer hover:bg-muted/30 transition-colors animate-fade-in"
                     style={{ animationDelay: `${index * 30}ms` }}
                   >
