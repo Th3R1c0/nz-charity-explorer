@@ -118,6 +118,7 @@ export const transformCharityData = (
     dateRegistered: new Date(overviewData.DateRegistered).getFullYear(),
     websiteURL: overviewData.WebSiteURL || "",
     charityEmailAddress: overviewData.CharityEmailAddress || "",
+    charityRegisterURL: overviewData.CharitySummaryURL || "",
 
     // Section 2: Mission & Identity
     charitablePurpose: overviewData.CharitablePurpose || "",

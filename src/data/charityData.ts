@@ -3136,6 +3136,7 @@ export interface CharityData {
   dateRegistered: number;
   websiteURL: string;
   charityEmailAddress: string;
+  charityRegisterURL: string;
 
   // Section 2: Mission & Identity
   charitablePurpose: string;

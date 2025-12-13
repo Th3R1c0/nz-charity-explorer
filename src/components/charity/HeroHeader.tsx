@@ -32,8 +32,8 @@ export const HeroHeader = ({ data }: HeroHeaderProps) => {
             <div className="space-y-2">
               <div className="flex items-center gap-3">
                 <span className={`px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase ${data.registrationStatus === 'Registered'
-                    ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20'
-                    : 'bg-red-500/10 text-red-500 border border-red-500/20'
+                  ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20'
+                  : 'bg-red-500/10 text-red-500 border border-red-500/20'
                   }`}>
                   {data.registrationStatus || "Unknown Status"}
                 </span>
@@ -47,9 +47,9 @@ export const HeroHeader = ({ data }: HeroHeaderProps) => {
               </h1>
             </div>
 
-            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+            <div className="flex flex-row items-center gap-2 text-sm text-muted-foreground overflow-hidden">
               {data.dateRegistered ? (
-                <div className="flex items-center gap-1.5 bg-muted/50 px-3 py-1.5 rounded-lg border border-border/50">
+                <div className="flex shrink-0 items-center gap-1.5 bg-muted/50 px-3 py-1.5 rounded-lg border border-border/50">
                   <Calendar className="w-4 h-4" />
                   <span>Registered {data.dateRegistered}</span>
                 </div>
@@ -60,11 +60,14 @@ export const HeroHeader = ({ data }: HeroHeaderProps) => {
                   href={data.websiteURL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 hover:text-primary transition-colors bg-muted/50 px-3 py-1.5 rounded-lg border border-border/50 hover:border-primary/50"
+                  className="flex items-center gap-1.5 hover:text-primary transition-colors bg-muted/50 px-3 py-1.5 rounded-lg border border-border/50 hover:border-primary/50 min-w-0"
                 >
-                  <ExternalLink className="w-4 h-4" />
-                  <span className="truncate max-w-[200px]">{data.websiteURL.replace(/^https?:\/\//, '')}</span>
-                  <ExternalLink className="w-3 h-3 opacity-50" />
+                  <ExternalLink className="w-4 h-4 shrink-0" />
+                  <span className="truncate max-w-[150px] md:max-w-[200px]">
+                    <span className="md:hidden">{data.websiteURL.replace(/^https?:\/\/(www\.)?/, '')}</span>
+                    <span className="hidden md:inline">{data.websiteURL.replace(/^https?:\/\//, '')}</span>
+                  </span>
+                  <ExternalLink className="w-3 h-3 opacity-50 shrink-0" />
                 </a>
               )}
             </div>
@@ -72,9 +75,9 @@ export const HeroHeader = ({ data }: HeroHeaderProps) => {
 
           {/* Actions Section */}
           <div className="flex flex-wrap items-center gap-2 md:gap-3 lg:self-start pt-2">
-            <Button size="sm" className="h-9 px-4 md:h-10 md:px-8 gap-2 shadow-lg hover:shadow-xl transition-all order-1 md:order-2 flex-1 md:flex-none" asChild>
-              <a href={`https://${data.websiteURL}`} target="_blank" rel="noopener noreferrer">
-                Visit Website
+            <Button size="sm" className="h-9 px-4 md:h-10 md:px-8 gap-2 shadow-lg hover:shadow-xl transition-all order-1 md:order-2 flex-1 md:flex-none bg-emerald-600 hover:bg-emerald-700 text-white border-none" asChild>
+              <a href={data.charityRegisterURL} target="_blank" rel="noopener noreferrer">
+                View on Charity Register
                 <ExternalLink className="h-4 w-4" />
               </a>
             </Button>
