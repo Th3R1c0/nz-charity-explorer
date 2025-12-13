@@ -26,7 +26,7 @@ export const Header = () => {
   const currentLanguage = languages.find(l => l.code === language);
 
   return (
-    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+    <header className="absolute top-0 z-50 w-full border-b border-border/40 bg-background/50 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
           <img src={logo} alt="nzcharityexplorer Logo" className="w-8 h-8 rounded-full" />

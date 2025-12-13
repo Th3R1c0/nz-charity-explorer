@@ -160,15 +160,15 @@ export const SectorRankings = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-              Market Analysis
+              Registered Charity Rankings
             </h2>
             <p className="text-muted-foreground">
-              Top charities ranked by financial scale and impact
+              Explore and compare the financial performance of registered charities
             </p>
           </div>
 
           {/* Desktop filters */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden items-center gap-3">
             <Button variant="outline" size="sm" className="gap-2" disabled>
               <Filter className="w-4 h-4" />
               Sector: All
@@ -199,7 +199,7 @@ export const SectorRankings = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <Button variant="outline" size="sm" className="gap-2" disabled>
+            <Button variant="outline" size="sm" className="gap-2 hidden" disabled>
               <Filter className="w-4 h-4" />
               Filter
             </Button>

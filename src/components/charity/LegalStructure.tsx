@@ -56,27 +56,29 @@ export const LegalStructure = ({ data }: LegalStructureProps) => {
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-lg md:text-xl font-mono font-bold tracking-tight text-foreground">
-                {data.nzbnNumber}
+              <span className={`text-lg md:text-xl font-mono font-bold tracking-tight ${data.nzbnNumber ? "text-foreground" : "text-muted-foreground italic text-base"}`}>
+                {data.nzbnNumber || "Data not provided"}
               </span>
-              <div className="flex gap-2">
-                <button
-                  onClick={copyNZBN}
-                  className="h-8 w-8 rounded-lg hover:bg-muted flex items-center justify-center transition-colors text-muted-foreground hover:text-foreground"
-                  title="Copy NZBN"
-                >
-                  <Copy className="h-4 w-4" />
-                </button>
-                <a
-                  href={`https://www.nzbn.govt.nz/mynzbn/search/${data.nzbnNumber}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="h-8 w-8 rounded-lg hover:bg-muted flex items-center justify-center transition-colors text-muted-foreground hover:text-foreground"
-                  title="View on NZBN Register"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-              </div>
+              {data.nzbnNumber && (
+                <div className="flex gap-2">
+                  <button
+                    onClick={copyNZBN}
+                    className="h-8 w-8 rounded-lg hover:bg-muted flex items-center justify-center transition-colors text-muted-foreground hover:text-foreground"
+                    title="Copy NZBN"
+                  >
+                    <Copy className="h-4 w-4" />
+                  </button>
+                  <a
+                    href={`https://www.nzbn.govt.nz/mynzbn/search/${data.nzbnNumber}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="h-8 w-8 rounded-lg hover:bg-muted flex items-center justify-center transition-colors text-muted-foreground hover:text-foreground"
+                    title="View on NZBN Register"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                </div>
+              )}
             </div>
           </div>
 
