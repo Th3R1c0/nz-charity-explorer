@@ -149,7 +149,7 @@
 
   /* Mobile section dividers */
   .mobile-section {
-    @apply py-6 border-b border-border/30;
+    @apply py-0 border-b border-border/30;
   }
 
   @screen md {
