@@ -41,9 +41,15 @@ const Index = () => {
       try {
         const profileUrl = `http://www.odata.charities.govt.nz/vOrganisations?$filter=CharityRegistrationNumber eq '${reg}'&$format=json`;
         const financialsUrl = `http://www.odata.charities.govt.nz/GrpOrgAllReturns?$filter=CharityRegistrationNumber eq '${reg}'&$select=Name,CharityRegistrationNumber,YearEnded,EndOfYearMonth,EndOfYearDayofMonth,TotalGrossIncome,TotalExpenditure,TotalAssets,TotalLiabilities,TotalEquity,NetSurplusDeficitForTheYear,GovtGrantsContracts,AllOtherGrantsAndSponsorship,DonationsKoha,ServiceTradingIncome,NewZealandDividends,AllOtherIncome,SalariesAndWages,CostOfServiceProvision,CostOfTradingOperations,Depreciation,AllOtherExpenditure,CashAndBankBalances,Investments,Buildings,AllOtherFixedAssets,PercentageSpentOverseas,NumberOfFulltimeEmployees,NumberOfParttimeEmployees,AvgAllPaidHoursPerWeek,AvgAllVolunteerHoursPerWeek,AvgNoVolunteersPerWeek,TotalAssetsLessTotalLiabilities,SurplusDeficit,GrantsRevenueFromLocalOrCentralGovernment,InterestOfDividendsReceived,EmployeeRemunerationAndOtherRelatedExpenses,FundRaisingExpenses,ReceivablesFromExchangeTransactionsAndRecoverableFromNonExchange,Inventory,PropertyPlantAndEquipmment,ReportingCurrency,PlanToUseAccumulatedFundsInTheFuture&$orderby=YearEnded desc&$format=json`;
+        const officersUrl = `http://www.odata.charities.govt.nz/vOfficerOrganisations?$select=FullName,OfficerStatus,PositioninOrganisation,PositionAppointmentDate,LastDateAsAnOfficer,CharityRegistrationNumber&$filter=CharityRegistrationNumber eq '${reg}'&$format=json`;
         const proxyBase = "https://corsproxy.io/?";
-        const [profileRes, financialsRes] = await Promise.all([fetch(proxyBase + encodeURIComponent(profileUrl)), fetch(proxyBase + encodeURIComponent(financialsUrl))]);
+        const [profileRes, financialsRes, officersRes] = await Promise.all([
+          fetch(proxyBase + encodeURIComponent(profileUrl)),
+          fetch(proxyBase + encodeURIComponent(financialsUrl)),
+          fetch(proxyBase + encodeURIComponent(officersUrl))
+        ]);
         const profileData = await profileRes.json();
+        const officersData = await officersRes.json();
 
         const USE_TEST_FINANCIALS = false;
         const financialsData = USE_TEST_FINANCIALS ? TestFinancialCharityData : await financialsRes.json();
@@ -51,11 +57,11 @@ const Index = () => {
           setError("Charity not found");
           return;
         }
-        const transformed = transformCharityData({
-          d: profileData.d
-        }, {
-          d: financialsData.d || []
-        });
+        const transformed = transformCharityData(
+          { d: profileData.d },
+          { d: financialsData.d || [] },
+          { d: officersData.d || [] }
+        );
         setCharityData(transformed);
       } catch (err) {
         console.error("Error fetching charity data:", err);
@@ -137,7 +143,7 @@ const Index = () => {
       </div>
 
       <div className="mobile-section">
-        <Officers />
+        <Officers data={charityData} />
       </div>
 
       <footer className="pt-8 md:pt-12 pb-6 md:pb-8 text-center text-xs md:text-sm text-muted-foreground">

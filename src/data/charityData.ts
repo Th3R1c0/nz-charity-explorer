@@ -3114,8 +3114,21 @@ export const TestOverviewCharityData = {
 //   },
 // };
 
+// Officer type definition
+export interface Officer {
+  FullName: string;
+  OfficerStatus: string;
+  PositionAppointmentDate: string;
+  LastDateAsAnOfficer: string | null;
+  PositioninOrganisation: string;
+  CharityRegistrationNumber: string;
+}
+
 // CharityData type definition
 export interface CharityData {
+  // Section 0: Officers
+  officers: Officer[];
+
   // Section 1: Hero Header
   name: string;
   registrationStatus: string;

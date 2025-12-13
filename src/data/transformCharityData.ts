@@ -1,7 +1,8 @@
-import { TestOverviewCharityData, TestFinancialCharityData, CharityData } from "./charityData";
+import { TestOverviewCharityData, TestFinancialCharityData, CharityMembersTestData, CharityData, Officer } from "./charityData";
 
 type FinancialRecord = (typeof TestFinancialCharityData.d)[0];
 type OverviewRecord = (typeof TestOverviewCharityData.d)[0];
+type OfficerRecord = (typeof CharityMembersTestData.d)[0];
 
 // Get the latest financial record (most recent year)
 const getLatestFinancialRecord = (records: FinancialRecord[]): FinancialRecord => {
@@ -52,12 +53,23 @@ const parseSourcesOfFunds = (sources: string | null): string[] => {
 
 export const transformCharityData = (
   overview: typeof TestOverviewCharityData,
-  financial: typeof TestFinancialCharityData
+  financial: typeof TestFinancialCharityData,
+  officers: typeof CharityMembersTestData
 ): CharityData => {
   const overviewData = overview.d[0];
   const financialRecords = financial.d;
   const latestFinancial = getLatestFinancialRecord(financialRecords);
   const financialHistory = getFinancialHistory(financialRecords);
+
+  // Map officers
+  const mappedOfficers: Officer[] = officers.d.map((o: any) => ({
+    FullName: o.FullName,
+    OfficerStatus: o.OfficerStatus,
+    PositionAppointmentDate: o.PositionAppointmentDate,
+    LastDateAsAnOfficer: o.LastDateAsAnOfficer,
+    PositioninOrganisation: o.PositioninOrganisation,
+    CharityRegistrationNumber: o.CharityRegistrationNumber
+  }));
 
   // Calculate revenue breakdown from latest record
   const govGrants = latestFinancial.GovtGrantsContracts ?? 0;
@@ -96,6 +108,9 @@ export const transformCharityData = (
     : totalExpenses * 0.1;
 
   return {
+    // Section 0: Officers
+    officers: mappedOfficers,
+
     // Section 1: Hero Header
     name: overviewData.Name,
     registrationStatus: overviewData.RegistrationStatus,
@@ -179,5 +194,6 @@ export const transformCharityData = (
 // Export the transformed data
 export const transformedCharityData = transformCharityData(
   TestOverviewCharityData,
-  TestFinancialCharityData
+  TestFinancialCharityData,
+  CharityMembersTestData
 );

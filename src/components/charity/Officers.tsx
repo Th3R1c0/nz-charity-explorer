@@ -1,19 +1,18 @@
 import { useState } from "react";
 import { Users, ChevronDown, ChevronUp, History, UserCheck, CalendarDays } from "lucide-react";
-import { CharityMembersTestData } from "@/data/charityData";
-import { Badge } from "@/components/ui/badge";
+import { CharityData, Officer } from "@/data/charityData";
 
-interface Officer {
-    FullName: string;
-    OfficerStatus: string;
-    PositionAppointmentDate: string;
-    LastDateAsAnOfficer: string | null;
-    PositioninOrganisation: string;
-    CharityRegistrationNumber: string;
+interface OfficersProps {
+    data: CharityData;
 }
 
-export const Officers = () => {
+export const Officers = ({ data }: OfficersProps) => {
     const [showAllLeaders, setShowAllLeaders] = useState(false);
+
+    // If no officers data, return null or empty state
+    if (!data.officers || data.officers.length === 0) {
+        return null;
+    }
 
     // Helper to identify council members
     const isCouncilMember = (position: string) => {
@@ -22,12 +21,12 @@ export const Officers = () => {
     };
 
     // Filter officers
-    const currentOfficers = CharityMembersTestData.d.filter(
+    const currentOfficers = data.officers.filter(
         (o) => o.OfficerStatus === "Qualified"
     );
 
     const executives = currentOfficers.filter(o => !isCouncilMember(o.PositioninOrganisation));
-    const pastOfficers = CharityMembersTestData.d.filter(
+    const pastOfficers = data.officers.filter(
         (o) => o.OfficerStatus === "Past"
     );
 
