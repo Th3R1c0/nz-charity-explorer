@@ -1,6 +1,10 @@
 {
     "rewrites": [
         {
+            "source": "/api/charities/:path*",
+            "destination": "http://www.odata.charities.govt.nz/:path*"
+        },
+        {
             "source": "/(.*)",
             "destination": "/index.html"
         }

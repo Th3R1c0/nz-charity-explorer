@@ -65,9 +65,8 @@ export const SearchBar = () => {
       setIsLoading(true);
       try {
         const encodedQuery = encodeURIComponent(debouncedQuery.toLowerCase());
-        const apiUrl = `http://www.odata.charities.govt.nz/vOrganisations?$filter=substringof('${encodedQuery}', tolower(Name)) eq true&$select=Name,PostalAddressCity,PostalAddressSuburb,MainActivityId,RegistrationStatus,CharityRegistrationNumber,CharitablePurpose&$format=json`;
-        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
-        const response = await fetch(proxyUrl);
+        const apiUrl = `/api/charities/vOrganisations?$filter=substringof('${encodedQuery}', tolower(Name)) eq true&$select=Name,PostalAddressCity,PostalAddressSuburb,MainActivityId,RegistrationStatus,CharityRegistrationNumber,CharitablePurpose&$format=json`;
+        const response = await fetch(apiUrl);
         const data = await response.json();
         setSearchResults(data.d || []);
       } catch (error) {

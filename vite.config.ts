@@ -8,6 +8,13 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    proxy: {
+      '/api/charities': {
+        target: 'http://www.odata.charities.govt.nz',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/charities/, '')
+      }
+    }
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
